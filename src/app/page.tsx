@@ -30,9 +30,6 @@ const articleContent = `
 // --- Article Rendering Component (Responsive) ---
 // This component parses and displays the markdown-like content.
 // 文章渲染组件 (已做响应式优化)。
-
-// FIX: Added type definition for component props to resolve TypeScript error.
-// 修复：为组件属性添加了类型定义，以解决TypeScript错误。
 interface ArticleDisplayProps {
   content: string;
 }
@@ -44,7 +41,7 @@ function ArticleDisplay({ content }: ArticleDisplayProps) {
         <div className="max-w-4xl mx-auto text-left py-12 px-4 sm:px-6 lg:px-8 mt-8">
             {lines.map((line, index) => {
                 if (line.startsWith('# ')) {
-                    return <h1 key={index} className="font-bold text-3xl sm:text-4xl mt-8 mb-6 border-b border-neutral-400/50 pb-4">{line.substring(2)}</h1>;
+                    return <h1 key={index} className="font-bold text-3xl sm:text-4xl mt-8 mb-6 border-b border-neutral-300 pb-4">{line.substring(2)}</h1>;
                 }
                 if (line.startsWith('## ')) {
                     return <h2 key={index} className="font-semibold text-2xl sm:text-3xl mt-10 mb-4">{line.substring(3)}</h2>;
@@ -62,17 +59,21 @@ function ArticleDisplay({ content }: ArticleDisplayProps) {
                 }
                 const videoMatch = line.match(/^@\[(.*)\]\((.*)\)/);
                 if (videoMatch) {
+                    // UPDATE: Added playsInline and preload="auto" for better video experience.
+                    // 更新：为提升视频播放体验，添加了 playsInline 和 preload="auto" 属性。
+                    // Note: HTML5 video does not have a native "highest quality" setting. The browser plays the provided source.
+                    // 注意：HTML5 video 标签没有原生的“最高清晰度”设置，浏览器会播放其接收到的源文件。
                     return (
                          <div key={index} className="my-8">
-                            <video controls src={videoMatch[2]} title={videoMatch[1]} className="rounded-lg shadow-lg w-full h-auto" />
+                            <video controls playsInline preload="auto" src={videoMatch[2]} title={videoMatch[1]} className="rounded-lg shadow-lg w-full h-auto" />
                         </div>
                     );
                 }
                 if (line.startsWith('*') && line.endsWith('*')) {
-                     return <p key={index} className="text-center text-sm text-neutral-700 dark:text-neutral-300 italic mt-[-1rem] mb-6">{line.substring(1, line.length - 1)}</p>
+                     return <p key={index} className="text-center text-sm text-neutral-500 italic mt-[-1rem] mb-6">{line.substring(1, line.length - 1)}</p>
                 }
                 if (line.trim() !== '') {
-                    return <p key={index} className="leading-relaxed text-black dark:text-neutral-100 text-base sm:text-lg">{line}</p>;
+                    return <p key={index} className="leading-relaxed text-neutral-800 text-base sm:text-lg">{line}</p>;
                 }
                 return null;
             })}
@@ -84,9 +85,6 @@ function ArticleDisplay({ content }: ArticleDisplayProps) {
 // --- Animated Background Component ---
 // This component generates the floating SVG path animations.
 // 动态背景SVG动画组件。
-
-// FIX: Added type definition for component props.
-// 修复：为组件属性添加了类型定义。
 interface FloatingPathsProps {
   position: number;
 }
@@ -102,9 +100,11 @@ function FloatingPaths({ position }: FloatingPathsProps) {
     }));
 
     return (
+        // UPDATE: Removed dark mode class and set a light gray color for the animated paths.
+        // 更新：移除了暗色模式类，并为动画线条设置了浅灰色。
         <div className="absolute inset-0 pointer-events-none z-0">
             <svg
-                className="w-full h-full text-slate-950 dark:text-white"
+                className="w-full h-full text-gray-300"
                 viewBox="0 0 696 316"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,11 +116,11 @@ function FloatingPaths({ position }: FloatingPathsProps) {
                         d={path.d}
                         stroke="currentColor"
                         strokeWidth={path.width}
-                        strokeOpacity={0.05 + path.id * 0.02}
+                        strokeOpacity={0.4 + path.id * 0.02}
                         initial={{ pathLength: 0.3, opacity: 0.6 }}
                         animate={{
                             pathLength: 1,
-                            opacity: [0.3, 0.6, 0.3],
+                            opacity: [0.1, 0.4, 0.1],
                             pathOffset: [0, 1, 0],
                         }}
                         transition={{
@@ -138,9 +138,6 @@ function FloatingPaths({ position }: FloatingPathsProps) {
 // --- Main Page Component (Core Layout) ---
 // This component orchestrates the entire page layout.
 // 核心页面布局组件。
-
-// FIX: Added type definition for component props.
-// 修复：为组件属性添加了类型定义。
 interface BackgroundPathsProps {
   title: string;
   subtitle: string;
@@ -150,7 +147,9 @@ function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
     const words = title.split(" ");
 
     return (
-        <div className="relative w-full h-screen bg-white dark:bg-neutral-950">
+        // UPDATE: Removed dark mode background class.
+        // 更新：移除了暗色模式的背景类。
+        <div className="relative w-full h-screen bg-white">
             <FloatingPaths position={1} />
             <FloatingPaths position={-1} />
             
@@ -176,7 +175,9 @@ function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
                                                 stiffness: 150,
                                                 damping: 25,
                                             }}
-                                            className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-700/80 dark:from-white dark:to-white/80"
+                                            // UPDATE: Removed dark mode classes for text gradient.
+                                            // 更新：移除了文字渐变的暗色模式类。
+                                            className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-700"
                                         >
                                             {letter}
                                         </motion.span>
@@ -185,7 +186,9 @@ function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
                             ))}
                         </h1>
                         <motion.p
-                            className="text-base sm:text-lg md:text-xl text-neutral-800 dark:text-neutral-300 max-w-2xl mx-auto"
+                            // UPDATE: Removed dark mode classes.
+                            // 更新：移除了暗色模式类。
+                            className="text-base sm:text-lg md:text-xl text-neutral-800 max-w-2xl mx-auto"
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.8, type: "spring" }}
@@ -205,14 +208,10 @@ function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
 // Production-ready code requirement: In Next.js App Router, the default export for a page.tsx file must be the page component itself.
 // 生产环境代码要求: 在Next.js App Router中，`page.tsx`的默认导出必须是页面组件本身。
 export default function Home() {
-    // This state management is for client-side rendering consistency.
-    // 这个状态管理是为了确保客户端渲染的一致性。
     const [isClient, setIsClient] = useState(false);
     useEffect(() => { setIsClient(true); }, []);
 
     if (!isClient) {
-        // Return null during server-side rendering or initial hydration to avoid mismatches.
-        // 在服务器端渲染或初始注水阶段返回null，以避免内容不匹配的问题。
         return null;
     }
     
