@@ -30,7 +30,14 @@ const articleContent = `
 // --- Article Rendering Component (Responsive) ---
 // This component parses and displays the markdown-like content.
 // 文章渲染组件 (已做响应式优化)。
-function ArticleDisplay({ content }) {
+
+// FIX: Added type definition for component props to resolve TypeScript error.
+// 修复：为组件属性添加了类型定义，以解决TypeScript错误。
+interface ArticleDisplayProps {
+  content: string;
+}
+
+function ArticleDisplay({ content }: ArticleDisplayProps) {
     const lines = content.trim().split('\n');
 
     return (
@@ -77,7 +84,14 @@ function ArticleDisplay({ content }) {
 // --- Animated Background Component ---
 // This component generates the floating SVG path animations.
 // 动态背景SVG动画组件。
-function FloatingPaths({ position }) {
+
+// FIX: Added type definition for component props.
+// 修复：为组件属性添加了类型定义。
+interface FloatingPathsProps {
+  position: number;
+}
+
+function FloatingPaths({ position }: FloatingPathsProps) {
     const paths = Array.from({ length: 36 }, (_, i) => ({
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${380 - i * 5 * position
@@ -124,7 +138,15 @@ function FloatingPaths({ position }) {
 // --- Main Page Component (Core Layout) ---
 // This component orchestrates the entire page layout.
 // 核心页面布局组件。
-function BackgroundPaths({ title, subtitle }) {
+
+// FIX: Added type definition for component props.
+// 修复：为组件属性添加了类型定义。
+interface BackgroundPathsProps {
+  title: string;
+  subtitle: string;
+}
+
+function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
     const words = title.split(" ");
 
     return (
