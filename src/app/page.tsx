@@ -40,14 +40,16 @@ function ArticleDisplay({ content }: ArticleDisplayProps) {
     return (
         <div className="max-w-4xl mx-auto text-left py-12 px-4 sm:px-6 lg:px-8 mt-8">
             {lines.map((line, index) => {
+                // UPDATE: Set all heading text colors to black.
+                // 更新：将所有标题颜色设置为黑色。
                 if (line.startsWith('# ')) {
-                    return <h1 key={index} className="font-bold text-3xl sm:text-4xl mt-8 mb-6 border-b border-neutral-300 pb-4">{line.substring(2)}</h1>;
+                    return <h1 key={index} className="font-bold text-black text-3xl sm:text-4xl mt-8 mb-6 border-b border-neutral-300 pb-4">{line.substring(2)}</h1>;
                 }
                 if (line.startsWith('## ')) {
-                    return <h2 key={index} className="font-semibold text-2xl sm:text-3xl mt-10 mb-4">{line.substring(3)}</h2>;
+                    return <h2 key={index} className="font-semibold text-black text-2xl sm:text-3xl mt-10 mb-4">{line.substring(3)}</h2>;
                 }
                 if (line.startsWith('### ')) {
-                    return <h3 key={index} className="font-semibold text-xl sm:text-2xl mt-8 mb-4">{line.substring(4)}</h3>;
+                    return <h3 key={index} className="font-semibold text-black text-xl sm:text-2xl mt-8 mb-4">{line.substring(4)}</h3>;
                 }
                 const imgMatch = line.match(/^!\[(.*)\]\((.*)\)/);
                 if (imgMatch) {
@@ -59,21 +61,21 @@ function ArticleDisplay({ content }: ArticleDisplayProps) {
                 }
                 const videoMatch = line.match(/^@\[(.*)\]\((.*)\)/);
                 if (videoMatch) {
-                    // UPDATE: Added playsInline and preload="auto" for better video experience.
-                    // 更新：为提升视频播放体验，添加了 playsInline 和 preload="auto" 属性。
-                    // Note: HTML5 video does not have a native "highest quality" setting. The browser plays the provided source.
-                    // 注意：HTML5 video 标签没有原生的“最高清晰度”设置，浏览器会播放其接收到的源文件。
                     return (
                          <div key={index} className="my-8">
                             <video controls playsInline preload="auto" src={videoMatch[2]} title={videoMatch[1]} className="rounded-lg shadow-lg w-full h-auto" />
                         </div>
                     );
                 }
+                // UPDATE: Set caption text to a darker gray.
+                // 更新：将图片/视频说明文字设置为更深的灰色。
                 if (line.startsWith('*') && line.endsWith('*')) {
-                     return <p key={index} className="text-center text-sm text-neutral-500 italic mt-[-1rem] mb-6">{line.substring(1, line.length - 1)}</p>
+                     return <p key={index} className="text-center text-sm text-neutral-700 italic mt-[-1rem] mb-6">{line.substring(1, line.length - 1)}</p>
                 }
+                // UPDATE: Set paragraph text to black.
+                // 更新：将段落文字颜色设置为黑色。
                 if (line.trim() !== '') {
-                    return <p key={index} className="leading-relaxed text-neutral-800 text-base sm:text-lg">{line}</p>;
+                    return <p key={index} className="leading-relaxed text-black text-base sm:text-lg">{line}</p>;
                 }
                 return null;
             })}
@@ -100,11 +102,11 @@ function FloatingPaths({ position }: FloatingPathsProps) {
     }));
 
     return (
-        // UPDATE: Removed dark mode class and set a light gray color for the animated paths.
-        // 更新：移除了暗色模式类，并为动画线条设置了浅灰色。
         <div className="absolute inset-0 pointer-events-none z-0">
             <svg
-                className="w-full h-full text-gray-300"
+                // UPDATE: Set animated path color to a darker gray.
+                // 更新：将动画线条的颜色设置为更深的灰色。
+                className="w-full h-full text-gray-400"
                 viewBox="0 0 696 316"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -147,8 +149,6 @@ function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
     const words = title.split(" ");
 
     return (
-        // UPDATE: Removed dark mode background class.
-        // 更新：移除了暗色模式的背景类。
         <div className="relative w-full h-screen bg-white">
             <FloatingPaths position={1} />
             <FloatingPaths position={-1} />
@@ -175,8 +175,6 @@ function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
                                                 stiffness: 150,
                                                 damping: 25,
                                             }}
-                                            // UPDATE: Removed dark mode classes for text gradient.
-                                            // 更新：移除了文字渐变的暗色模式类。
                                             className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-700"
                                         >
                                             {letter}
@@ -186,8 +184,6 @@ function BackgroundPaths({ title, subtitle }: BackgroundPathsProps) {
                             ))}
                         </h1>
                         <motion.p
-                            // UPDATE: Removed dark mode classes.
-                            // 更新：移除了暗色模式类。
                             className="text-base sm:text-lg md:text-xl text-neutral-800 max-w-2xl mx-auto"
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
