@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 export const runtime = 'edge'; // Specify the runtime for Vercel
 
@@ -10,9 +10,7 @@ interface LogEntry {
 }
 
 // GET handler to export all chat histories
-// FIX: Removed unused 'request' parameter to resolve the 'no-unused-vars' error.
-// 修复：移除未使用的'request'参数以解决'no-unused-vars'错误。
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const url = process.env.KV_REST_API_URL;
     const token = process.env.KV_REST_API_TOKEN;
@@ -24,8 +22,6 @@ export async function GET() {
 
     // 1. Scan for all keys matching the chat history pattern
     // 1. 扫描所有匹配聊天记录模式的键
-    // We'll scan in batches in case there are many keys.
-    // 我们将分批扫描，以防有大量的键。
     let cursor = 0;
     const allKeys: string[] = [];
     do {
@@ -53,39 +49,49 @@ export async function GET() {
         return NextResponse.json({ message: "No chat histories found." });
     }
 
-    // 2. Fetch all chat logs for each key using a pipeline for efficiency
-    // 2. 使用pipeline高效地获取每个键的所有聊天记录
-    const pipeline = allKeys.map(key => ['LRANGE', key, 0, -1]);
-
-    const multiExecResponse = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(pipeline)
-    });
-    
-    if (!multiExecResponse.ok) {
-        const errorBody = await multiExecResponse.json();
-        console.error('Error fetching histories with pipeline from Vercel KV:', errorBody);
-        return new NextResponse('Internal Server Error: Failed to fetch histories', { status: 500 });
-    }
-
-    const histories = await multiExecResponse.json();
-
-    // 3. Format the data for export
-    // 3. 格式化数据以供导出
-    // FIX: Replaced 'any[]' with the specific 'LogEntry[]' type.
-    // 修复：将 'any[]' 替换为更具体的 'LogEntry[]' 类型。
+    // 2. Fetch all chat logs in batches to avoid overwhelming the API
+    // 2. 为避免API超负荷，分批获取所有聊天记录
     const exportData: Record<string, LogEntry[]> = {};
-    allKeys.forEach((key, index) => {
-        // Extract the user identifier (session ID or IP) from the key
-        const userIdentifier = key.split(':')[1] || `unknown_user_${index}`;
-        const userHistory: string[] = histories.result[index] || [];
-        // Parse each entry from a JSON string to an object
-        exportData[userIdentifier] = userHistory.map((entry: string): LogEntry => JSON.parse(entry));
-    });
+    const batchSize = 10; // Process 10 keys at a time
+
+    for (let i = 0; i < allKeys.length; i += batchSize) {
+        const batchKeys = allKeys.slice(i, i + batchSize);
+        const pipeline = batchKeys.map(key => ['LRANGE', key, 0, -1]);
+
+        const multiExecResponse = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(pipeline)
+        });
+        
+        if (!multiExecResponse.ok) {
+            const errorBody = await multiExecResponse.json();
+            console.error('Error fetching histories with pipeline from Vercel KV:', errorBody);
+            // Even if one batch fails, we can try to continue with others
+            // 即使一个批次失败，我们也可以尝试继续处理其他批次
+            continue; 
+        }
+
+        const histories = await multiExecResponse.json();
+
+        // 3. Format the data for export
+        // 3. 格式化数据以供导出
+        batchKeys.forEach((key, index) => {
+            const userIdentifier = key.split(':')[1] || `unknown_user_${key}`;
+            const userHistory: string[] = histories.result[index] || [];
+            exportData[userIdentifier] = userHistory.map((entry: string): LogEntry => {
+                try {
+                    return JSON.parse(entry);
+                } catch {
+                    // Handle cases where an entry might not be valid JSON
+                    return { question: "Invalid entry", timestamp: "" };
+                }
+            });
+        });
+    }
     
     // 4. Return as a JSON file download
     // 4. 作为JSON文件下载返回
