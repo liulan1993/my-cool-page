@@ -10,7 +10,9 @@ interface LogEntry {
 }
 
 // GET handler to export all chat histories
-export async function GET(request: NextRequest) {
+// FIX: Removed unused 'request' parameter to resolve the 'no-unused-vars' error.
+// 修复：移除未使用的'request'参数以解决'no-unused-vars'错误。
+export async function GET() {
   try {
     const url = process.env.KV_REST_API_URL;
     const token = process.env.KV_REST_API_TOKEN;
