@@ -426,12 +426,12 @@ const FloatingAIChatWidget = () => {
     
     // FIX: Limit the conversation history to the last 4 messages to prevent oversized payloads.
     // 修复：将对话历史限制为最近的4条消息，以防止请求体过大。
-    const recentMessages = newMessagesForUI.slice(-5, -1); // Get up to 4 recent messages, excluding the latest user input
+    const recentHistory = messages.slice(-4); // Get the last 4 messages from the PREVIOUS state.
 
     const apiMessages = [
         { role: 'system', content: systemPrompt },
         // Map the recent history for the API call
-        ...recentMessages.map(msg => ({
+        ...recentHistory.map(msg => ({
             role: msg.role === 'model' ? 'assistant' : 'user',
             content: msg.text
         })),
