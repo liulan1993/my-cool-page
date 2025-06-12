@@ -4,6 +4,9 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+// REMOVED: The @vercel/kv import is moved to a server-side API route to fix the build error.
+// 移除：@vercel/kv的导入被移至服务器端的API路由，以修复构建错误。
+
 
 // --- 辅助工具函数 (为AI客服组件添加) ---
 const cn = (...classes: (string | boolean | undefined | null)[]) => {
@@ -410,6 +413,12 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const widgetRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  // REMOVED: The useEffect hook for loading chat history has been removed
+  // to ensure each session starts fresh for the user.
+  // The backend still saves the full history for analysis.
+  // 移除：加载聊天记录的useEffect钩子已被移除，以确保用户的每个会话都是全新的。
+  // 后端仍然会保存完整的历史记录以供分析。
+
   useEffect(() => {
     const fetchKnowledgeBase = async () => {
         const filesToFetch = [
@@ -460,13 +469,19 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
 
   const handleSubmit = async (userInput: string) => {
     if (!userInput.trim() || !knowledgeBase) return;
-
-    const newMessagesForUI = [...messages, { role: 'user', text: userInput }];
+    
+    const userMessage = { role: 'user', text: userInput };
+    const newMessagesForUI = [...messages, userMessage];
     setMessages(newMessagesForUI);
     setIsLoading(true);
 
-    // UPDATE: System prompt now requests Markdown formatting.
-    // 更新：系统提示词现在要求使用Markdown格式进行输出。
+    // Save user message via API route
+    await fetch('/api/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(userMessage)
+    });
+
     const systemPrompt = `您是“Apex AI客服”，一个友好且乐于助人的人工智能。您的任务是严格根据以下提供的【内部资料】和【当前页面内容】来回答用户的问题。请优先参考【当前页面内容】。请不要编造资料中不存在的信息。如果问题的答案在资料中找不到，请使用“人工客服的说明书.txt”里指定的标准回复。
 
     重要: 请使用Markdown语法来格式化您的回答以提高可读性。例如，使用标题(#, ##)、列表(-)和粗体字(**text**)。
@@ -482,7 +497,7 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
     ---
     `;
     
-    const recentHistory = messages.slice(-4); 
+    const recentHistory = newMessagesForUI.slice(-5, -1); 
 
     const chatHistory = [
       { role: "user", parts: [{ text: systemPrompt }] },
@@ -516,14 +531,30 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
         }
 
         const result = await response.json();
-        let aiResponse = "抱歉，我遇到了一些问题，请稍后再试。";
+        let aiResponseText = "抱歉，我遇到了一些问题，请稍后再试。";
         if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
-           aiResponse = result.candidates[0].content.parts[0].text;
+           aiResponseText = result.candidates[0].content.parts[0].text;
         }
-        setMessages([...newMessagesForUI, { role: 'model', text: aiResponse }]);
+        
+        const aiMessage = { role: 'model', text: aiResponseText };
+        setMessages([...newMessagesForUI, aiMessage]);
+        
+        // Save AI response via API route
+        await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(aiMessage)
+        });
+
     } catch (error) {
         console.error("API调用失败:", error);
-        setMessages([...newMessagesForUI, { role: 'model', text: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" }]);
+        const errorMessage = { role: 'model', text: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" };
+        setMessages([...newMessagesForUI, errorMessage]);
+        await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(errorMessage)
+        });
     } finally {
         setIsLoading(false);
     }
@@ -572,8 +603,6 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
                   {messages.map((msg, index) => (
                     <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`px-3 py-2 rounded-lg max-w-xs text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-200'}`}>
-                        {/* UPDATE: Conditionally render Markdown for AI responses. */}
-                        {/* 更新：为AI的回复条件性地渲染Markdown。 */}
                         {msg.role === 'user' ? msg.text : <SimpleMarkdownRenderer content={msg.text} />}
                       </div>
                     </div>
