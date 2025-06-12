@@ -4,7 +4,9 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { v4 as uuidv4 } from 'uuid'; // NEW: Import uuid to generate unique session IDs.
+// REMOVED: The 'uuid' import is removed to resolve the build error.
+// We will use the standard Web Crypto API instead.
+// 移除：为解决构建错误，'uuid'的导入已被移除。我们将改用标准的Web Crypto API。
 
 
 // --- 辅助工具函数 (为AI客服组件添加) ---
@@ -408,19 +410,17 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [knowledgeBase, setKnowledgeBase] = useState("");
-  // NEW: State to hold the unique session ID for the user.
-  // 新增：用于保存用户唯一会话ID的状态。
   const [sessionId, setSessionId] = useState<string | null>(null);
   
   const widgetRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  // NEW: Effect to get or create a session ID on component mount.
-  // 新增：在组件挂载时获取或创建会话ID的Effect。
+  // FIX: Use crypto.randomUUID() which is a standard Web API, removing the need for an external package.
+  // 修复：使用Web标准API crypto.randomUUID()，不再需要外部包。
   useEffect(() => {
     let currentSessionId = sessionStorage.getItem('chat_session_id');
     if (!currentSessionId) {
-      currentSessionId = uuidv4();
+      currentSessionId = crypto.randomUUID();
       sessionStorage.setItem('chat_session_id', currentSessionId);
     }
     setSessionId(currentSessionId);
@@ -482,8 +482,6 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
     setMessages(newMessagesForUI);
     setIsLoading(true);
 
-    // NEW: Pass the session ID to the backend API for logging.
-    // 新增：将session ID传递给后端API用于记录。
     await fetch('/api/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -547,9 +545,6 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
         const aiMessage = { role: 'model', text: aiResponseText };
         setMessages([...newMessagesForUI, aiMessage]);
         
-        // The backend doesn't need to log AI responses, so we don't send them.
-        // 后端不需要记录AI的回复，所以我们不发送它们。
-
     } catch (error) {
         console.error("API调用失败:", error);
         const errorMessage = { role: 'model', text: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" };
