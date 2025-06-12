@@ -10,8 +10,6 @@ interface LogEntry {
 }
 
 // GET handler to export all chat histories
-// FIX: Removed unused 'request' parameter and its type 'NextRequest' from import to resolve errors.
-// 修复：移除了未使用的'request'参数及其类型'NextRequest'的导入以解决错误。
 export async function GET() {
   try {
     const url = process.env.KV_REST_API_URL;
@@ -42,7 +40,9 @@ export async function GET() {
       const scanResult = await scanResponse.json();
       cursor = scanResult.result[0];
       const keys: string[] = scanResult.result[1];
-      allKeys.push(...keys);
+      if (keys) {
+        allKeys.push(...keys);
+      }
 
     } while (cursor !== 0);
 
@@ -71,9 +71,7 @@ export async function GET() {
         
         if (!multiExecResponse.ok) {
             const errorBody = await multiExecResponse.json();
-            console.error('Error fetching histories with pipeline from Vercel KV:', errorBody);
-            // Even if one batch fails, we can try to continue with others
-            // 即使一个批次失败，我们也可以尝试继续处理其他批次
+            console.error(`Error fetching batch starting from key ${batchKeys[0]}:`, errorBody);
             continue; 
         }
 
@@ -81,18 +79,26 @@ export async function GET() {
 
         // 3. Format the data for export
         // 3. 格式化数据以供导出
-        batchKeys.forEach((key, index) => {
-            const userIdentifier = key.split(':')[1] || `unknown_user_${key}`;
-            const userHistory: string[] = histories.result[index] || [];
-            exportData[userIdentifier] = userHistory.map((entry: string): LogEntry => {
-                try {
-                    return JSON.parse(entry);
-                } catch {
-                    // Handle cases where an entry might not be valid JSON
-                    return { question: "Invalid entry", timestamp: "" };
+        // FIX: Added robust checking for the histories.result to prevent runtime errors.
+        // 修复：增加了对histories.result的健壮性检查，以防止运行时错误。
+        if (histories && histories.result && Array.isArray(histories.result)) {
+            batchKeys.forEach((key, index) => {
+                const userIdentifier = key.split(':')[1] || `unknown_user_${key}`;
+                const userHistory: string[] | null = histories.result[index];
+                
+                if(Array.isArray(userHistory)) {
+                    exportData[userIdentifier] = userHistory.map((entry: string): LogEntry => {
+                        try {
+                            return JSON.parse(entry);
+                        } catch {
+                            return { question: "Invalid JSON entry", timestamp: new Date().toISOString() };
+                        }
+                    });
+                } else {
+                     exportData[userIdentifier] = []; // Assign empty array if history is null
                 }
             });
-        });
+        }
     }
     
     // 4. Return as a JSON file download
