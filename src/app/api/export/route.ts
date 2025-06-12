@@ -1,9 +1,18 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'edge'; // Specify the runtime for Vercel
 
+// Define a type for the log entries for type safety
+// 为日志条目定义一个明确的类型接口以保证类型安全
+interface LogEntry {
+    question: string;
+    timestamp: string;
+}
+
 // GET handler to export all chat histories
-export async function GET(request: NextRequest) {
+// FIX: Removed unused 'request' parameter to resolve the 'no-unused-vars' error.
+// 修复：移除未使用的'request'参数以解决'no-unused-vars'错误。
+export async function GET() {
   try {
     const url = process.env.KV_REST_API_URL;
     const token = process.env.KV_REST_API_TOKEN;
@@ -67,13 +76,15 @@ export async function GET(request: NextRequest) {
 
     // 3. Format the data for export
     // 3. 格式化数据以供导出
-    const exportData: Record<string, any[]> = {};
+    // FIX: Replaced 'any[]' with the specific 'LogEntry[]' type.
+    // 修复：将 'any[]' 替换为更具体的 'LogEntry[]' 类型。
+    const exportData: Record<string, LogEntry[]> = {};
     allKeys.forEach((key, index) => {
         // Extract the user identifier (session ID or IP) from the key
         const userIdentifier = key.split(':')[1] || `unknown_user_${index}`;
-        const userHistory = histories.result[index] || [];
+        const userHistory: string[] = histories.result[index] || [];
         // Parse each entry from a JSON string to an object
-        exportData[userIdentifier] = userHistory.map((entry: string) => JSON.parse(entry));
+        exportData[userIdentifier] = userHistory.map((entry: string): LogEntry => JSON.parse(entry));
     });
     
     // 4. Return as a JSON file download
