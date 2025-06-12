@@ -16,7 +16,7 @@ export async function GET() {
     const token = process.env.KV_REST_API_TOKEN;
 
     if (!url || !token) {
-      console.error('Vercel KV environment variables not set');
+      console.error('Vercel KV environment variables are not set');
       return new NextResponse('Internal Server Error: KV configuration missing', { status: 500 });
     }
 
@@ -25,8 +25,6 @@ export async function GET() {
     let cursor = 0;
     const allKeys: string[] = [];
     do {
-      // UPDATE: Scan for keys with the new "chats/" prefix.
-      // 更新：扫描带有新的 "chats/" 前缀的键。
       const scanResponse = await fetch(`${url}/scan/${cursor}/match/chats:*`, {
           headers: {
               'Authorization': `Bearer ${token}`,
@@ -40,10 +38,16 @@ export async function GET() {
       }
       
       const scanResult = await scanResponse.json();
-      cursor = scanResult.result[0];
-      const keys: string[] = scanResult.result[1];
-      if (keys) {
-        allKeys.push(...keys);
+      // Add robust checking for the scan result structure
+      if (scanResult && Array.isArray(scanResult.result) && scanResult.result.length === 2) {
+        cursor = scanResult.result[0];
+        const keys: string[] = scanResult.result[1];
+        if (keys && keys.length > 0) {
+          allKeys.push(...keys);
+        }
+      } else {
+        console.error("Unexpected scan result format from Vercel KV:", scanResult);
+        cursor = 0; // Exit loop on unexpected format
       }
 
     } while (cursor !== 0);
@@ -88,15 +92,21 @@ export async function GET() {
                 const userHistory: string[] | null = histories.result[index];
                 
                 if(Array.isArray(userHistory)) {
-                    exportData[userIdentifier] = userHistory.map((entry: string): LogEntry => {
+                    exportData[userIdentifier] = userHistory.map((entry: string): LogEntry | null => {
                         try {
-                            return JSON.parse(entry);
+                            // Ensure the parsed entry is a valid LogEntry
+                            const parsed = JSON.parse(entry);
+                            if (parsed && typeof parsed.question === 'string' && typeof parsed.timestamp === 'string') {
+                                return parsed;
+                            }
+                            return null;
                         } catch {
-                            return { question: "Invalid JSON entry", timestamp: new Date().toISOString() };
+                            // Handle cases where an entry might not be valid JSON
+                            return null;
                         }
-                    });
+                    }).filter((item): item is LogEntry => item !== null); // Filter out any null entries
                 } else {
-                     exportData[userIdentifier] = []; // Assign empty array if history is null
+                     exportData[userIdentifier] = []; // Assign empty array if history is null or not an array
                 }
             });
         }
