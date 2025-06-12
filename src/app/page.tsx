@@ -424,49 +424,51 @@ const FloatingAIChatWidget = () => {
     ---
     `;
     
-    // FIX: Limit the conversation history to the last 4 messages to prevent oversized payloads.
-    // 修复：将对话历史限制为最近的4条消息，以防止请求体过大。
-    const recentHistory = messages.slice(-4); // Get the last 4 messages from the PREVIOUS state.
+    // 保持对话历史的精简
+    const recentHistory = messages.slice(-4); 
 
-    const apiMessages = [
-        { role: 'system', content: systemPrompt },
-        // Map the recent history for the API call
-        ...recentHistory.map(msg => ({
-            role: msg.role === 'model' ? 'assistant' : 'user',
-            content: msg.text
-        })),
-        // Add the current user's message
-        { role: 'user', content: userInput }
+    // 转换为Gemini API的格式
+    const chatHistory = [
+      { role: "user", parts: [{ text: systemPrompt }] },
+      ...recentHistory.map(msg => ({
+        role: msg.role === 'user' ? 'user' : 'model',
+        parts: [{ text: msg.text }]
+      })),
+       { role: "user", parts: [{ text: userInput }] }
     ];
 
+    // FIX: Reverting to the official Gemini API payload structure.
+    // 修复：恢复使用Gemini官方API的请求体结构。
     const payload = {
-      model: "gemini-2.5-flash-preview-05-20",
-      messages: apiMessages,
+      contents: chatHistory,
     };
     
     const apiKey = "AIzaSyCEPLmEGSUyPKO0hcaAgBDLLwxWTnq_qXQ"; 
-    const proxyUrl = "https://aesthetic-gaufre-7cdff5.netlify.app/v1/chat/completions";
+    // FIX: Reverting to the official Gemini API endpoint.
+    // 修复：恢复使用Gemini官方API端点。
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
     try {
-        const response = await fetch(proxyUrl, {
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}` 
             },
             body: JSON.stringify(payload)
         });
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("代理服务器返回错误:", errorData);
-            throw new Error(`API error from proxy: ${response.statusText}`);
+            console.error("API返回错误:", errorData);
+            throw new Error(`API error: ${response.statusText}`);
         }
 
         const result = await response.json();
         let aiResponse = "抱歉，我遇到了一些问题，请稍后再试。";
-        if (result.choices && result.choices[0]?.message?.content) {
-           aiResponse = result.choices[0].message.content;
+        // FIX: Reverting to the official Gemini API response parsing.
+        // 修复：恢复使用Gemini官方API的响应解析方式。
+        if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
+           aiResponse = result.candidates[0].content.parts[0].text;
         }
         setMessages([...newMessagesForUI, { role: 'model', text: aiResponse }]);
     } catch (error) {
