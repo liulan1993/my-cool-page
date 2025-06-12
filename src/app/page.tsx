@@ -6,7 +6,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- 辅助工具函数 (为AI客服组件添加) ---
-const cn = (...classes) => {
+// FIX: Added explicit type for the 'classes' rest parameter to resolve TypeScript error.
+// 修复：为 'classes' 剩余参数添加了显式类型以解决TypeScript错误。
+const cn = (...classes: (string | boolean | undefined | null)[]) => {
     return classes.filter(Boolean).join(' ');
 };
 
@@ -36,7 +38,7 @@ const articleContent = `
 // --- Article Rendering Component (Responsive) ---
 // This component parses and displays the markdown-like content.
 // 文章渲染组件 (已做响应式优化)。
-function ArticleDisplay({ content }) {
+function ArticleDisplay({ content }: { content: string }) {
     const lines = content.trim().split('\n');
 
     return (
@@ -83,7 +85,7 @@ function ArticleDisplay({ content }) {
 // --- Animated Background Component ---
 // This component generates the floating SVG path animations.
 // 动态背景SVG动画组件。
-function FloatingPaths({ position }) {
+function FloatingPaths({ position }: { position: number }) {
     const paths = Array.from({ length: 36 }, (_, i) => ({
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${380 - i * 5 * position
@@ -130,7 +132,7 @@ function FloatingPaths({ position }) {
 // --- Main Page Component (Core Layout) ---
 // This component orchestrates the entire page layout.
 // 核心页面布局组件。
-function BackgroundPaths({ title, subtitle }) {
+function BackgroundPaths({ title, subtitle }: { title: string, subtitle: string }) {
     const words = title.split(" ");
 
     return (
@@ -191,13 +193,18 @@ const PlaceholdersAndVanishInput = ({
   onSubmit,
   value,
   setValue,
+}: {
+  placeholders: string[];
+  onSubmit: (value: string) => void;
+  value: string;
+  setValue: (value: string) => void;
 }) => {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [animating, setAnimating] = useState(false);
-  const canvasRef = useRef(null);
-  const newDataRef = useRef([]);
-  const inputRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const newDataRef = useRef<any[]>([]);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const startAnimation = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -233,10 +240,8 @@ const PlaceholdersAndVanishInput = ({
     const newData = [];
 
     for (let t = 0; t < 800; t++) {
-      // FIX: Changed let to const as 'i' is never reassigned.
       const i = 4 * t * 800;
       for (let n = 0; n < 800; n++) {
-        // FIX: Changed let to const as 'e' is never reassigned.
         const e = i + 4 * n;
         if (pixelData[e] !== 0 && pixelData[e+1] !== 0 && pixelData[e+2] !== 0) {
           newData.push({ x: n, y: t, color: [pixelData[e], pixelData[e+1], pixelData[e+2], pixelData[e+3]] });
@@ -248,10 +253,10 @@ const PlaceholdersAndVanishInput = ({
 
   useEffect(() => { draw(); }, [value, draw]);
   
-  const animate = (start) => {
+  const animate = (start: number) => {
     const animateFrame = (pos = 0) => {
       requestAnimationFrame(() => {
-        const newArr = [];
+        const newArr: any[] = [];
         for (let i = 0; i < newDataRef.current.length; i++) {
           const current = newDataRef.current[i];
           if (current.x < pos) {
@@ -297,7 +302,7 @@ const PlaceholdersAndVanishInput = ({
     }
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!value || animating) return;
     vanishAndSubmit();
@@ -341,13 +346,13 @@ const PlaceholdersAndVanishInput = ({
 // --- 主悬浮AI客服窗口组件 ---
 const FloatingAIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<{role: string; text: string}[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [knowledgeBase, setKnowledgeBase] = useState("");
   
-  const widgetRef = useRef(null);
-  const messagesEndRef = useRef(null);
+  const widgetRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const fetchKnowledgeBase = async () => {
@@ -378,8 +383,8 @@ const FloatingAIChatWidget = () => {
   }, []);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (widgetRef.current && !widgetRef.current.contains(event.target)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (widgetRef.current && !widgetRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
@@ -397,7 +402,7 @@ const FloatingAIChatWidget = () => {
 
   const placeholders = [ "我们的总部在哪里?", "CTO是谁?", "平台支持哪些服务?", "无法解答问题时怎么办?" ];
 
-  const handleSubmit = async (userInput) => {
+  const handleSubmit = async (userInput: string) => {
     if (!userInput.trim() || !knowledgeBase) return;
 
     const newMessages = [...messages, { role: 'user', text: userInput }];
@@ -414,6 +419,7 @@ const FloatingAIChatWidget = () => {
     
     const openAIMessages = [
         { role: 'system', content: systemPrompt },
+        ...messages.map(m => ({ role: m.role === 'model' ? 'assistant' : 'user', content: m.text })),
         { role: 'user', content: userInput }
     ];
 
