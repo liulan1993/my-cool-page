@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
@@ -8,8 +8,10 @@ interface LogEntry {
 }
 
 // GET handler to export a single user's chat history
+// FIX: Corrected the function signature for a dynamic route handler in Next.js App Router.
+// 修复：修正了Next.js App Router中动态路由处理程序的函数签名。
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { sessionId: string } }
 ) {
   try {
