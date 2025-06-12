@@ -17,7 +17,9 @@ export async function POST(request: NextRequest) { // Use NextRequest to access 
     
     // Requirement 1: Differentiate logs by user's IP address.
     // 需求1：根据用户的IP地址区分日志。
-    const ip = request.ip || 'unknown';
+    // FIX: Use 'x-forwarded-for' header to get IP in Vercel Edge Functions.
+    // 修复：在Vercel Edge函数中，使用 'x-forwarded-for' 请求头来获取IP。
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
     const userChatHistoryKey = `chat_history:${ip}`;
 
     const url = process.env.KV_REST_API_URL;
