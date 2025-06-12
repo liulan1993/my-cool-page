@@ -2,76 +2,80 @@ import { NextResponse, NextRequest } from 'next/server';
 
 export const runtime = 'edge'; // Specify the runtime for Vercel
 
-// POST handler to save a new message
-export async function POST(request: NextRequest) { // Use NextRequest to access IP
+// GET handler to export all chat histories
+export async function GET(request: NextRequest) {
   try {
-    const message = await request.json();
-    
-    // Requirement 2: Only save messages from the user.
-    // 需求2：只保存来自用户的消息。
-    if (!message || message.role !== 'user' || !message.text) {
-      // If it's an AI response or invalid, return OK without saving.
-      // 如果是AI的回复或格式无效，直接返回成功，不进行保存。
-      return new NextResponse('OK (AI response - not logged)', { status: 200 });
-    }
-    
-    // Requirement 1: Differentiate logs by user's IP address.
-    // 需求1：根据用户的IP地址区分日志。
-    // FIX: Use 'x-forwarded-for' header to get IP in Vercel Edge Functions.
-    // 修复：在Vercel Edge函数中，使用 'x-forwarded-for' 请求头来获取IP。
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
-    const userChatHistoryKey = `chat_history:${ip}`;
-
     const url = process.env.KV_REST_API_URL;
     const token = process.env.KV_REST_API_TOKEN;
 
     if (!url || !token) {
-        console.error('Vercel KV environment variables not set');
-        return new NextResponse('Internal Server Error: KV configuration missing', { status: 500 });
+      console.error('Vercel KV environment variables not set');
+      return new NextResponse('Internal Server Error: KV configuration missing', { status: 500 });
     }
 
-    // Prepare the data to be saved: user's question with a timestamp.
-    // 准备要保存的数据：用户的问题和一个时间戳。
-    const logEntry = {
-        question: message.text,
-        timestamp: new Date().toISOString(),
-    };
-
-    // 1. Save the new user message using RPUSH command
-    const saveResponse = await fetch(url, {
-        method: 'POST',
+    // 1. Scan for all keys matching the chat history pattern
+    // 1. 扫描所有匹配聊天记录模式的键
+    const scanResponse = await fetch(`${url}/scan/0/match/chat_history:*`, {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(['RPUSH', userChatHistoryKey, JSON.stringify(logEntry)])
     });
 
-    if (!saveResponse.ok) {
-        const errorBody = await saveResponse.json();
-        console.error('Error saving message to Vercel KV:', errorBody);
-        return new NextResponse('Internal Server Error: Failed to save message', { status: 500 });
+    if (!scanResponse.ok) {
+        const errorBody = await scanResponse.json();
+        console.error('Error scanning keys from Vercel KV:', errorBody);
+        return new NextResponse('Internal Server Error: Failed to scan keys', { status: 500 });
+    }
+    
+    const scanResult = await scanResponse.json();
+    const keys: string[] = scanResult.result[1];
+
+    if (!keys || keys.length === 0) {
+        return NextResponse.json({ message: "No chat histories found." });
     }
 
-    // 2. Trim the list for this specific user to keep the last 50 questions
-    const trimResponse = await fetch(url, {
+    // 2. Fetch all chat logs for each key
+    // 2. 获取每个键的所有聊天记录
+    const pipeline = keys.map(key => ['LRANGE', key, 0, -1]);
+
+    const multiExecResponse = await fetch(url, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(['LTRIM', userChatHistoryKey, -50, -1])
+        body: JSON.stringify(pipeline)
     });
     
-    if (!trimResponse.ok) {
-        // Log the trim error but don't fail the request, as saving is more critical
-        const errorBody = await trimResponse.json();
-        console.error('Error trimming chat history in Vercel KV:', errorBody);
+    if (!multiExecResponse.ok) {
+        const errorBody = await multiExecResponse.json();
+        console.error('Error fetching histories with pipeline from Vercel KV:', errorBody);
+        return new NextResponse('Internal Server Error: Failed to fetch histories', { status: 500 });
     }
 
-    return new NextResponse('OK (User question logged)', { status: 200 });
+    const histories = await multiExecResponse.json();
+
+    // 3. Format the data for export
+    // 3. 格式化数据以供导出
+    const exportData: Record<string, any[]> = {};
+    keys.forEach((key, index) => {
+        const userIdentifier = key.split(':')[1] || 'unknown_user';
+        const userHistory = histories.result[index] || [];
+        exportData[userIdentifier] = userHistory.map((entry: string) => JSON.parse(entry));
+    });
+    
+    // 4. Return as a JSON file download
+    // 4. 作为JSON文件下载返回
+    return new NextResponse(JSON.stringify(exportData, null, 2), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Disposition': `attachment; filename="chat_histories_export_${new Date().toISOString()}.json"`,
+      },
+    });
+
   } catch (error) {
-    console.error('Error processing POST request to /api/chat:', error);
+    console.error('Error processing GET request to /api/export:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

@@ -4,8 +4,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-// REMOVED: The @vercel/kv import is moved to a server-side API route to fix the build error.
-// 移除：@vercel/kv的导入被移至服务器端的API路由，以修复构建错误。
+import { v4 as uuidv4 } from 'uuid'; // NEW: Import uuid to generate unique session IDs.
 
 
 // --- 辅助工具函数 (为AI客服组件添加) ---
@@ -409,15 +408,23 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [knowledgeBase, setKnowledgeBase] = useState("");
+  // NEW: State to hold the unique session ID for the user.
+  // 新增：用于保存用户唯一会话ID的状态。
+  const [sessionId, setSessionId] = useState<string | null>(null);
   
   const widgetRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  // REMOVED: The useEffect hook for loading chat history has been removed
-  // to ensure each session starts fresh for the user.
-  // The backend still saves the full history for analysis.
-  // 移除：加载聊天记录的useEffect钩子已被移除，以确保用户的每个会话都是全新的。
-  // 后端仍然会保存完整的历史记录以供分析。
+  // NEW: Effect to get or create a session ID on component mount.
+  // 新增：在组件挂载时获取或创建会话ID的Effect。
+  useEffect(() => {
+    let currentSessionId = sessionStorage.getItem('chat_session_id');
+    if (!currentSessionId) {
+      currentSessionId = uuidv4();
+      sessionStorage.setItem('chat_session_id', currentSessionId);
+    }
+    setSessionId(currentSessionId);
+  }, []);
 
   useEffect(() => {
     const fetchKnowledgeBase = async () => {
@@ -468,18 +475,19 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const placeholders = [ "我们的总部在哪里?", "CTO是谁?", "平台支持哪些服务?", "无法解答问题时怎么办?" ];
 
   const handleSubmit = async (userInput: string) => {
-    if (!userInput.trim() || !knowledgeBase) return;
+    if (!userInput.trim() || !knowledgeBase || !sessionId) return;
     
     const userMessage = { role: 'user', text: userInput };
     const newMessagesForUI = [...messages, userMessage];
     setMessages(newMessagesForUI);
     setIsLoading(true);
 
-    // Save user message via API route
+    // NEW: Pass the session ID to the backend API for logging.
+    // 新增：将session ID传递给后端API用于记录。
     await fetch('/api/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(userMessage)
+        body: JSON.stringify({ message: userMessage, sessionId })
     });
 
     const systemPrompt = `您是“Apex AI客服”，一个友好且乐于助人的人工智能。您的任务是严格根据以下提供的【内部资料】和【当前页面内容】来回答用户的问题。请优先参考【当前页面内容】。请不要编造资料中不存在的信息。如果问题的答案在资料中找不到，请使用“人工客服的说明书.txt”里指定的标准回复。
@@ -539,22 +547,13 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
         const aiMessage = { role: 'model', text: aiResponseText };
         setMessages([...newMessagesForUI, aiMessage]);
         
-        // Save AI response via API route
-        await fetch('/api/chat', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(aiMessage)
-        });
+        // The backend doesn't need to log AI responses, so we don't send them.
+        // 后端不需要记录AI的回复，所以我们不发送它们。
 
     } catch (error) {
         console.error("API调用失败:", error);
         const errorMessage = { role: 'model', text: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" };
         setMessages([...newMessagesForUI, errorMessage]);
-        await fetch('/api/chat', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(errorMessage)
-        });
     } finally {
         setIsLoading(false);
     }
