@@ -187,6 +187,15 @@ function BackgroundPaths({ title, subtitle }: { title: string, subtitle: string 
     );
 }
 
+// --- Particle Type Definition ---
+// 为粒子动画效果定义一个明确的类型接口
+interface Particle {
+  x: number;
+  y: number;
+  r: number;
+  color: string;
+}
+
 // --- AI 客服组件 ---
 const PlaceholdersAndVanishInput = ({
   placeholders,
@@ -203,7 +212,9 @@ const PlaceholdersAndVanishInput = ({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [animating, setAnimating] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const newDataRef = useRef<any[]>([]);
+  // FIX: Replaced 'any[]' with the specific 'Particle[]' type.
+  // 修复：将 'any[]' 替换为更具体的 'Particle[]' 类型。
+  const newDataRef = useRef<Particle[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const startAnimation = useCallback(() => {
@@ -256,7 +267,9 @@ const PlaceholdersAndVanishInput = ({
   const animate = (start: number) => {
     const animateFrame = (pos = 0) => {
       requestAnimationFrame(() => {
-        const newArr: any[] = [];
+        // FIX: Replaced 'any[]' with the specific 'Particle[]' type.
+        // 修复：将 'any[]' 替换为更具体的 'Particle[]' 类型。
+        const newArr: Particle[] = [];
         for (let i = 0; i < newDataRef.current.length; i++) {
           const current = newDataRef.current[i];
           if (current.x < pos) {
