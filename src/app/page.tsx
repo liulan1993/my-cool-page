@@ -6,8 +6,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- 辅助工具函数 (为AI客服组件添加) ---
-// FIX: Added explicit type for the 'classes' rest parameter to resolve TypeScript error.
-// 修复：为 'classes' 剩余参数添加了显式类型以解决TypeScript错误。
 const cn = (...classes: (string | boolean | undefined | null)[]) => {
     return classes.filter(Boolean).join(' ');
 };
@@ -212,8 +210,6 @@ const PlaceholdersAndVanishInput = ({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [animating, setAnimating] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  // FIX: Replaced 'any[]' with the specific 'Particle[]' type.
-  // 修复：将 'any[]' 替换为更具体的 'Particle[]' 类型。
   const newDataRef = useRef<Particle[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -267,8 +263,6 @@ const PlaceholdersAndVanishInput = ({
   const animate = (start: number) => {
     const animateFrame = (pos = 0) => {
       requestAnimationFrame(() => {
-        // FIX: Replaced 'any[]' with the specific 'Particle[]' type.
-        // 修复：将 'any[]' 替换为更具体的 'Particle[]' 类型。
         const newArr: Particle[] = [];
         for (let i = 0; i < newDataRef.current.length; i++) {
           const current = newDataRef.current[i];
@@ -418,8 +412,8 @@ const FloatingAIChatWidget = () => {
   const handleSubmit = async (userInput: string) => {
     if (!userInput.trim() || !knowledgeBase) return;
 
-    const newMessages = [...messages, { role: 'user', text: userInput }];
-    setMessages(newMessages);
+    const newMessagesForUI = [...messages, { role: 'user', text: userInput }];
+    setMessages(newMessagesForUI);
     setIsLoading(true);
 
     const systemPrompt = `您是“Apex AI客服”，一个友好且乐于助人的人工智能。您的任务是严格根据以下提供的【内部资料】来回答用户的问题。请不要编造资料中不存在的信息。如果问题的答案在资料中找不到，请使用“人工客服的说明书.txt”里指定的标准回复。
@@ -430,15 +424,24 @@ const FloatingAIChatWidget = () => {
     ---
     `;
     
-    const openAIMessages = [
+    // FIX: Limit the conversation history to the last 4 messages to prevent oversized payloads.
+    // 修复：将对话历史限制为最近的4条消息，以防止请求体过大。
+    const recentMessages = newMessagesForUI.slice(-5, -1); // Get up to 4 recent messages, excluding the latest user input
+
+    const apiMessages = [
         { role: 'system', content: systemPrompt },
-        ...messages.map(m => ({ role: m.role === 'model' ? 'assistant' : 'user', content: m.text })),
+        // Map the recent history for the API call
+        ...recentMessages.map(msg => ({
+            role: msg.role === 'model' ? 'assistant' : 'user',
+            content: msg.text
+        })),
+        // Add the current user's message
         { role: 'user', content: userInput }
     ];
 
     const payload = {
       model: "gemini-2.5-flash-preview-05-20",
-      messages: openAIMessages,
+      messages: apiMessages,
     };
     
     const apiKey = "AIzaSyCEPLmEGSUyPKO0hcaAgBDLLwxWTnq_qXQ"; 
@@ -465,10 +468,10 @@ const FloatingAIChatWidget = () => {
         if (result.choices && result.choices[0]?.message?.content) {
            aiResponse = result.choices[0].message.content;
         }
-        setMessages([...newMessages, { role: 'model', text: aiResponse }]);
+        setMessages([...newMessagesForUI, { role: 'model', text: aiResponse }]);
     } catch (error) {
         console.error("API调用失败:", error);
-        setMessages([...newMessages, { role: 'model', text: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" }]);
+        setMessages([...newMessagesForUI, { role: 'model', text: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" }]);
     } finally {
         setIsLoading(false);
     }
