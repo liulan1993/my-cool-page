@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'edge'; // Specify the runtime for Vercel
 
@@ -10,8 +10,8 @@ interface LogEntry {
 }
 
 // GET handler to export all chat histories
-// FIX: Removed unused 'request' parameter to resolve the 'no-unused-vars' error.
-// 修复：移除未使用的'request'参数以解决'no-unused-vars'错误。
+// FIX: Removed unused 'request' parameter and its type 'NextRequest' from import to resolve errors.
+// 修复：移除了未使用的'request'参数及其类型'NextRequest'的导入以解决错误。
 export async function GET() {
   try {
     const url = process.env.KV_REST_API_URL;
