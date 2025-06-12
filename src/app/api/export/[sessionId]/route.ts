@@ -8,14 +8,14 @@ interface LogEntry {
 }
 
 // GET handler to export a single user's chat history
-// FIX: Corrected the function signature for a dynamic route handler in Next.js App Router.
-// 修复：修正了Next.js App Router中动态路由处理程序的函数签名。
+// FIX: Changed the function signature to use a context object directly, which is a more robust way to handle dynamic route parameters.
+// 修复：更改了函数签名，直接使用context对象，这是一种更健壮的处理动态路由参数的方式。
 export async function GET(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  context: { params: { sessionId: string } }
 ) {
   try {
-    const sessionId = params.sessionId;
+    const sessionId = context.params.sessionId;
     if (!sessionId) {
       return new NextResponse('Bad Request: Session ID is required', { status: 400 });
     }
