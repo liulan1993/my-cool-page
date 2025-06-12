@@ -1,0 +1,441 @@
+## 新加坡公司注册信息表 (Singapore Company Registration Information Form)
+
+**Section A: Information of Client /Agent’s particulars / 客户/代理人信息** [cite: 1]
+* Full Name (including any alias) / 名字 (包括任何别名): [cite: 1]
+* Identity Card/ Passport No. / 身份证/护照号码: [cite: 1]
+* Residential Address / 住家住址: [cite: 1]
+* Nationality / 国籍: [cite: 1]
+* Contact No. / 联系号码: [cite: 1]
+
+**Proposed Business entity’s information / 商业实体信息**
+* Proposed Name of Entity (in order of preference) / 实体名称 (按优先顺序):
+    * 1st Choice / 第一选择: [cite: 2]
+    * 2nd Choice / 第二选择: [cite: 2]
+    * 3rd Choice / 第三选择: [cite: 2]
+* Proposed Registered Office Address / 公司注册地址: [cite: 3]
+* Proposed Place of Business / 公司运营地址: [cite: 4]
+* Country That the Business Mostly is Transacting / 企业主要开展业务的国家:
+    * 1. [cite: 5]
+    * 2. [cite: 5]
+    * 3. [cite: 5]
+* Proposed Business Activities & Paid-up Capital / 公司营业范围 (可注册两个) & 公司注册资本金:
+    * Brief Description / 公司营业范围简介: [cite: 6]
+    * Paid-up Capital (S$) / 公司注册金额(新币): [cite: 6]
+
+**Section B: Information of Directors’ particulars (Minimum – One Local Resident Director is required) / 公司董事信息（至少一名新加坡本地董事）**
+* Director (1):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 7]
+    * Identity Card/ Passport No. / 身份证/护照号码: [cite: 7]
+    * Gender / 性别: [cite: 7]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 7]
+    * Residential Address / 住家住址: [cite: 7]
+    * Nationality / 国籍: [cite: 7]
+    * Date of Birth / 出生日期: [cite: 7]
+    * Contact No. / 联系号码: [cite: 7]
+    * Email Address / 邮箱: [cite: 7]
+* Director (2):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 8]
+    * Identity Card/ Passport No. / 身份证/护照号码: [cite: 8]
+    * Gender / 性别: [cite: 8]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 8]
+    * Residential Address / 住家住址: [cite: 8]
+    * Nationality / 国籍: [cite: 8]
+    * Date of Birth / 出生日期: [cite: 8]
+    * Contact No. / 联系号码: [cite: 8]
+    * Email Address / 邮箱: [cite: 8]
+
+* Documents Required from Proposed Director(s) / 请提供一下董事所需文件:
+    * Copy of NRIC (for Singapore Citizens or Singapore PR only) / 新加坡身份证复印件 （适用于新加坡公民或新加坡永久居民） [cite: 9]
+    * Copy of Employment Pass (for individuals residing in Singapore and holding valid work passes issued by the Ministry of Manpower of Singapore) / 新加坡公司准证 （Employment pass） 复印件 （适用于居住在新加坡并持有新加坡人力部签发的有效工作准证的个人） [cite: 9]
+    * Copy of Passport and residential address proof duly notarised (for Foreigners only) / 护照复印件和地址证明（适用于外国人） [cite: 9]
+
+**Section C: Information of Shareholders’ particulars (Individual/Corporation) / 公司股东信息 （个人/机构）**
+* Shareholder (1):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 10]
+    * Identity Card/ Passport No. / UEN / 身份证/护照号码/公司注册号: [cite: 10]
+    * Gender / 性别: [cite: 10]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 10]
+    * Residential Address/ Registered Office Address/ Address of place of business / 住家地址/公司注册地址/公司运营地址: [cite: 10]
+    * Date of Birth/ Registration Date / 出生日期/公司注册日期: [cite: 10]
+    * Nationality/ Place of Registration / 国籍 / 公司注册地址: [cite: 10]
+    * No. of Shareholdings / 持股数量: [cite: 10]
+    * Contact No. / 联系号码: [cite: 10]
+    * Email address / 邮箱: [cite: 10]
+* Shareholder (2):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 11]
+    * Identity Card/ Passport No. / UEN / 身份证/护照号码/公司注册号: [cite: 11]
+    * Gender / 性别: [cite: 11]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 11]
+    * Residential Address/ Registered Office Address/ Address of place of business / 住家地址/公司注册地址/公司运营地址: [cite: 11]
+    * Date of Birth/ Registration Date / 出生日期/公司注册日期: [cite: 11]
+    * Nationality/ Place of Registration / 国籍 / 公司注册地址: [cite: 11]
+    * No. of Shareholdings / 持股数量: [cite: 11]
+    * Contact No. / 联系号码: [cite: 11]
+    * Email address / 邮箱: [cite: 11]
+* Shareholder (3):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 12]
+    * Identity Card/ Passport No. / UEN / 身份证/护照号码/公司注册号: [cite: 12]
+    * Gender / 性别: [cite: 12]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 12]
+    * Residential Address/ Registered Office Address/ Address of place of business / 住家地址/公司注册地址/公司运营地址: [cite: 12]
+    * Date of Birth/ Registration Date / 出生日期/公司注册日期: [cite: 12]
+    * Nationality/ Place of Registration / 国籍 / 公司注册地址: [cite: 12]
+    * No. of Shareholdings / 持股数量: [cite: 12]
+    * Contact No. / 联系号码: [cite: 12]
+    * Email address / 邮箱: [cite: 12]
+* Shareholder (4):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 13]
+    * Identity Card/ Passport No. / UEN / 身份证/护照号码/公司注册号: [cite: 13]
+    * Gender / 性别: [cite: 13]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 13]
+    * Residential Address/ Registered Office Address/ Address of place of business / 住家地址/公司注册地址/公司运营地址: [cite: 13]
+    * Date of Birth/ Registration Date / 出生日期/公司注册日期: [cite: 13]
+    * Nationality/ Place of Registration / 国籍 / 公司注册地址: [cite: 13]
+    * No. of Shareholdings / 持股数量: [cite: 13]
+    * Contact No. / 联系号码: [cite: 13]
+    * Email address / 邮箱: [cite: 13]
+* Shareholder (5):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 14]
+    * Identity Card/ Passport No. / UEN / 身份证/护照号码/公司注册号: [cite: 14]
+    * Gender / 性别: [cite: 14]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 14]
+    * Residential Address/ Registered Office Address/ Address of place of business / 住家地址/公司注册地址/公司运营地址: [cite: 14]
+    * Date of Birth/ Registration Date / 出生日期/公司注册日期: [cite: 14]
+    * Nationality/ Place of Registration / 国籍 / 公司注册地址: [cite: 14]
+    * No. of Shareholdings / 持股数量: [cite: 14]
+    * Contact No. / 联系号码: [cite: 14]
+    * Email address / 邮箱: [cite: 14]
+* Shareholder (6):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 15]
+    * Identity Card/ Passport No. / UEN / 身份证/护照号码/公司注册号: [cite: 15]
+    * Gender / 性别: [cite: 15]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 15]
+    * Residential Address/ Registered Office Address/ Address of place of business / 住家地址/公司注册地址/公司运营地址: [cite: 15]
+    * Date of Birth/ Registration Date / 出生日期/公司注册日期: [cite: 15]
+    * Nationality/ Place of Registration / 国籍 / 公司注册地址: [cite: 15]
+    * No. of Shareholdings / 持股数量: [cite: 15]
+    * Contact No. / 联系号码: [cite: 15]
+    * Email address / 邮箱: [cite: 15]
+
+* Documents Required from Proposed Individual Shareholder(s) / 请提供一下股东所需文件:
+    * Copy of NRIC (for Singapore Citizens or Singapore PR only) / 新加坡身份证复印件 （适用于新加坡公民或新加坡永久居民） [cite: 16]
+    * Copy of Employment Pass (for individuals residing in Singapore and holding valid work passes issued by the Ministry of Manpower of Singapore) / 新加坡公司准证 （Employment pass） 复印件 （适用于居住在新加坡并持有新加坡人力部签发的有效工作准证的个人） [cite: 16]
+    * Copy of Passport and residential address proof duly notarised (for Foreigners only) / 护照复印件和地址证明（适用于外国人） [cite: 16]
+* If the shareholder will be a corporation, please provide us copies of the following documents: / 如果股东是公司，请提供以下文件:
+    * Certificate of incorporation / 公司成立证书 [cite: 16]
+    * Memorandum and articles of association (or equivalent) / 公司章程或细则（或等同文件） [cite: 16]
+    * Business Profile (certificate of incumbency) / 公司注册纸Bizfile (在职证明书，适用离岸公司) [cite: 16]
+
+**Section D: Information of Beneficial Owner / 最终受益人信息**
+"[please fill in if corporate shareholder (s) or different from individual shareholder(s)] / 如股东为公司法人或与个人股东不同，请填写相关信息" [cite: 17]
+* Beneficial Owner (1):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 17]
+    * Identity Card/ Passport No. / 身份证/护照号码: [cite: 17]
+    * Gender / 性别: [cite: 17]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 17]
+    * Residential Address / 住家住址: [cite: 17]
+    * Nationality / 国籍: [cite: 17]
+    * Contact No. / 联系号码: [cite: 17]
+    * Date of Birth / 出生日期: [cite: 17]
+    * Provide Information of Nature of Beneficial Ownership (eg. More than 25% of ownership) and ownership and control structure of the entity / 请提供实际受益所有权的性质信息（例如：拥有超过25%的所有权）以及该实体的所有权和控制结构: [cite: 17]
+* Beneficial Owner (2):
+    * Full Name (including any alias) / 名字 (包括任何别名): [cite: 18]
+    * Identity Card/ Passport No. / 身份证/护照号码: [cite: 18]
+    * Gender / 性别: [cite: 18]
+    * Expiry date of Identity Card/ Passport / 身份证 & 护照有效期: [cite: 18]
+    * Residential Address / 住家住址: [cite: 18]
+    * Nationality / 国籍: [cite: 18]
+    * Contact No. / 联系号码: [cite: 18]
+    * Date of Birth / 出生日期: [cite: 18]
+    * Provide Information of Nature of Beneficial Ownership (eg. More than 25% of ownership) and ownership and control structure of the entity / 请提供实际受益所有权的性质信息（例如：拥有超过25%的所有权）以及该实体的所有权和控制结构: [cite: 18]
+
+**Section E: Financial Year End / 财务年度截止日**
+* Financial Year End Date of the Proposed Company shall be: / 公司财务年度截止日应定位： [cite: 19] of every calendar year / 每个公历年 [cite: 19]
+
+**Section F: Information of Politically Exposed Persons, their immediate family members and close associates / 政治公众人物、其直系亲属及密切关系人信息**
+* 1. Are any of the persons listed above a politically exposed person, that is, a person who is or has been entrusted with any prominent public function in Singapore, a country or territory outside Singapore, or by an international organisation at present? / 上述人员中是否有任何人是政治公众人物，即目前在新加坡、境外国家或地区，或国际组织中担任或曾担任重要公共职务的人？ Yes □ No □ [cite: 20]
+* 2. Are any of the persons listed above a politically exposed person, that is, a person who has been entrusted with any prominent public function in Singapore, a country or territory outside Singapore, or by an international organisation who has stepped down from his prominent public function? / 上述人员中是否有任何人是已卸任的政治公众人物，即曾在新加坡、境外国家或地区，或国际组织中担任重要公共职务但现已卸任的人？ Yes □ No □ [cite: 20]
+* 3. Are any of the persons listed above an immediate family member or a close associate of a politically exposed person or a politically exposed person who has stepped down? / 上述人员中是否有任何人与政治公众人物或已卸任的政治公众人物属于直系亲属或密切关系人？ Yes □ No □ [cite: 20]
+* Note: Please proceed to fill in the PEP form for each politically exposed person, immediate family member or close associate. / 注意：请为每位政治公众人物、其直系亲属或密切关系人填写一份政治公众人物（PEP）表格。 [cite: 21]
+
+**Authorisation and Declaration / 授权与声明**
+* I declare that the information provided in this form is true and correct. [cite: 21]
+* I am aware that l may be subject to prosecution and criminal sanctions under written law if l am found to have made any false statement which l know to be false or which l do not believe to be true, or if l have intentionally suppressed any material fact. [cite: 22]
+* I further declare that the reproduced documents (if not duly certified to be true) that I have submitted with this form are accurate and exact reproductions of the originals with no defacement or alterations of their original contents. [cite: 23]
+* 本人声明，本表格中所提供的信息真实且正确。本人知悉，如被发现作出本人明知为虚假或并不相信为真实的虚假陈述，或故意隐瞒任何重要事实，可能会根据现行法律受到起诉及刑事制裁。 [cite: 24]
+* 本人进一步声明，随本表格提交的复印文件（如未正式认证为真实副本）均为原件的准确无误复制件，未有任何涂改或篡改原始内容。 [cite: 24]
+* Name of Client/ Agent: 客户/代理名字： [cite: 24]
+* Identity/Passport No.: 身份证/护照号： [cite: 24]
+
+## 银行开户信息表 (Bank Account Opening Information Form)
+
+**QUESTIONNAIRE FOR ENTERPRISE CUSTOMER / 公司问卷** [cite: 25]
+* Company Information / 公司信息:
+    * Company name / 公司名称: [cite: 26]
+    * Country of incorporation / 注册管辖区: [cite: 26]
+    * Date of incorporation / 注册成立日期: [cite: 26]
+    * Mailing address for the account / 银行账户通讯地址: [cite: 26]
+    * Currency type of the account / 开 户货币: [cite: 26]
+    * Address of physical company / 公司地址: [cite: 26]
+    * Main country of business / 主要营业地区: [cite: 26]
+    * Names of all directors (exactly as per passport) / 董事姓名(根据护照全名): [cite: 26]
+    * Names of all shareholders (exactly as per passport) / 股东姓名,(根据护照全名): [cite: 26]
+    * Names of all signatories for this bank account (exactly as per passport) / 银行账户授权 签署者 姓名,(根据护照全名): [cite: 26]
+* 1st Ultimate Beneficial Owner Details / 最终受益人详情:
+    * Name / 姓名: [cite: 26]
+    * NRIC/Passport Number / 新加坡IC/护照号码: [cite: 26]
+    * Mobile Number / 手机号码: [cite: 26]
+    * Office Number / 座机号码: [cite: 26]
+    * Email Address / 电邮地址: [cite: 26]
+    * Residential Address / 居住地址: [cite: 26]
+* 2nd Contact person for this account / 银行账户联系人详情 (最多可两位):
+    * Name / 姓名: [cite: 26]
+    * NRIC/Passport Number / 新加坡IC/护照号码: [cite: 26]
+    * Mobile Number / 手机号码: [cite: 26]
+    * Office Number / 座机号码: [cite: 26]
+    * Email Address / 电邮地址: [cite: 26]
+
+**KYC Information** [cite: 27]
+* Primary Business Activities (and website if any). Elaborate: / 主要业务活动 (和网站）。 阐述： [cite: 28]
+* Secondary Business Activities (and website if any). Elaborate: / 其次业务活动(和网站）。 阐述： [cite: 28]
+* Are there complex structures such as trust arrangements, multi-tiered shareholdings (3 layers of shareholdings or more) involved, etc? If yes, indicate the objective in setting up the structure. / 是否有涉及复杂的结构，如信托安排，多层次的股权（3层持股或更多），等？如果是，请说明建立结构的目的。 [cite: 28]
+* Are there any Nominee Directors/Shareholders? If yes, indicate the objective. / 是否有任何代持董事/股东？如果是，说明目的。 [cite: 28]
+* What will the Singapore bank account be used mostly for? (eg. investments or operational account) / 设立在新加坡的银行账户主要用途？ （如投资或贸易帐户） [cite: 28]
+* Background of the beneficial owner(s) (you may also attach a copy of c.v. and skip question 6) / 实益拥有人的背景 [cite: 28]
+* What is the source of wealth of the beneficial owners / 实益拥有人的资金来源 [cite: 28]
+* Background of the directors (you may also attach a copy of c.v. and skip question 8) / 董事的背景 [cite: 28]
+* Names of some of your counterparts/ sister company / 列出对应公司 / 姊妹公司 [cite: 28]
+* Staff number by region / 员工人数（新加坡和中国或其它地区各多少） [cite: 28]
+* Expected turnover per year / 每年预计营业额 [cite: 28]
+* Initial deposit (Amount) / 进账户首存款额 [cite: 29]
+* Source of funds / 资金来源 [cite: 29]
+* Average balance to be maintained in account / 帐户平均余额 [cite: 29]
+
+**Top 5 customers, cash inflow sources. / 主要五大客户（资金来源），请填写公司英文全称及相关信息；** [cite: 30]
+* Table with columns: Name of Buyer / 买家名称, Location / 地点, Goods / 货品, Parent/Related Party? (Y/N) / 种类 / 关联公司？, Years of Relationship / 合作年限, Payment Terms / 付款方式（现款电汇？赊账？信用证？）, Estimated % of Customer Total Sales / 占比% [cite: 31]
+
+**Top 5 suppliers, cash outflow recipients. / 主要五大供应商（资金去向），请填写公司英文全称及相关信息；** [cite: 32]
+* Table with columns: Name of Suppliers / 供应商名称, Location / 地点, Goods / 货品, Parent/Related Party? (Y/N) / 种类 / 关联公司？, Years of Relationship / 合作年限, Payment Terms / 付款方式（现款电汇？赊账？信用证？）, Estimated % of Customer Total Purchase / 占比% [cite: 33]
+
+**开户后账户预计使用情况（大概就好）： / Estimated account usage after opening (approximate):** [cite: 34]
+* 每月进账款项资金流 Amount and frequency of expected transactions inflow: [cite: 34]
+    * Frequency / 笔数: [cite: 35]
+    * Amount / 金额: [cite: 35]
+    * Currency / 币种: [cite: 35]
+    * Source of funds / 主要付款方名称(前五大): [cite: 35]
+    * Purpose / 付款目的: [cite: 35]
+* 每月出账款项资金流 Amount and frequency of expected transactions outflow: [cite: 36]
+    * Frequency / 笔数: [cite: 37]
+    * Amount / 金额: [cite: 37]
+    * Currency / 币种: [cite: 37]
+    * Destination of funds / 主要收款方名称（前五大）: [cite: 37]
+    * Purpose / 出款目的: [cite: 37]
+
+## Apex 健康溯源体检评估信息表 (Apex Health Traceability Medical Examination Evaluation Information Form) [cite: 38]
+
+* **一、基本信息 (Basic Information)**
+    * 姓名 (Name)：__________________________ [cite: 38]
+    * 出生年份 (Birth Year)：__________ [cite: 38]
+    * 性别 (Gender)： ☐ 男 (Male) ☐ 女 (Female) [cite: 38]
+    * 联系方式（手机号 / 微信） (Contact Information (Mobile / WeChat))：__________________________ [cite: 38]
+* **二、生活方式 (Lifestyle)**
+    * 运动频率 (Exercise Frequency)： ☐ 每周3次以上 (More than 3 times a week) ☐ 偶尔 (Occasionally) ☐ 很少 (Rarely) [cite: 38]
+    * 饮食习惯 (Dietary Habits)： ☐ 高盐高油 (High salt and oil) ☐ 偏素清淡 (Vegetarian/Light) ☐ 辣食较多 (Spicy food lover) ☐ 不规律饮食 (Irregular diet) [cite: 38]
+    * 睡眠情况 (Sleep Condition)： ☐ 良好 (Good) ☐ 经常失眠 / 多梦 (Frequent insomnia / vivid dreams) ☐ 白天易疲劳 (Easily fatigued during the day) [cite: 38]
+    * 是否吸烟 (Smoking)： ☐ 是 (Yes)（年限 (Duration)：____年 (years)，每天 (Daily)：____支 (cigarettes)） ☐ 否 (No) [cite: 38]
+    * 是否饮酒 (Drinking)： ☐ 是 (Yes)（年限 (Duration)：____年 (years)，频率 (Frequency)：____） ☐ 否 (No) [cite: 38]
+* **三、家族重大疾病史 (Family History of Major Diseases)**
+    * ☐ 高血压 (Hypertension) ☐ 糖尿病 (Diabetes) ☐ 心脑血管疾病 (Cardiovascular and cerebrovascular diseases) [cite: 38]
+    * ☐ 癌症（部位 (Cancer (Location))：_____________） [cite: 38]
+    * ☐ 自身免疫疾病 (Autoimmune diseases) ☐ 其他 (Other)：_____________ [cite: 38]
+    * ☐ 无明显家族病史 (No significant family medical history) [cite: 38]
+* **四、已有确诊病史或关注的健康问题 (Diagnosed Medical Conditions or Health Concerns)**
+    * ☐ 甲状腺结节 (Thyroid nodules) ☐ 血脂异常 (Dyslipidemia) ☐ 胃肠道不适 (Gastrointestinal discomfort) [cite: 38]
+    * ☐ 乳腺结节 / 子宫肌瘤（女性） (Breast nodules / Uterine fibroids (female)) [cite: 38]
+    * ☐ 肝胆结石 / 息肉 (Gallstones / Polyps) [cite: 38]
+    * ☐ 高血压 / 高血糖 (Hypertension / Hyperglycemia) [cite: 38]
+    * ☐ 其他 (Other)：____________________________ [cite: 38]
+* **五、目前已做过的检查 (Current Examinations Taken)**
+    * ☐ 常规体检（血常规 + B超） (Routine check-up (Blood test + Ultrasound)) [cite: 38]
+    * ☐ 肿瘤筛查（如CEA、CA125等） (Tumor screening (e.g., CEA, CA125, etc.)) [cite: 38]
+    * ☐ 胃肠镜检查 (Gastroscopy/Colonoscopy) [cite: 38]
+    * ☐ 心脑血管影像检查（CTA、脑MRI） (Cardiovascular and cerebrovascular imaging (CTA, Brain MRI)) [cite: 38]
+    * ☐ 无法确认（仅上传报告） (Cannot confirm (only upload report)) [cite: 38]
+* **六、服务目标 (Service Goals)**
+    * ☐ 看懂自己的体检报告 (Understand my medical report) [cite: 39]
+    * ☐ 是否需要做进一步检查 (Whether further examination is needed) [cite: 39]
+    * ☐ 了解哪些指标有长期变化风险 (Understand which indicators have long-term risk of change) [cite: 39]
+    * ☐ 咨询健康提升建议 (Consult for health improvement advice) [cite: 39]
+    * ☐ 帮忙预约体检 / 医疗资源 (Help book medical examination / medical resources) [cite: 39]
+* **七、上传体检报告 (Upload Medical Report)** [cite: 39]
+    * 请上传近3–5年的体检报告PDF或拍照版本，可通过微信或表单提交。(Please upload PDF or photo versions of medical reports from the last 3-5 years via WeChat or form submission.) [cite: 39]
+* **八、其他补充信息（可选） (Other Supplementary Information (Optional))** [cite: 39]
+
+## Apex 准证申请信息表 (Apex Pass Application Information Form) [cite: 40]
+
+* **一、申请人基本信息 (Applicant Basic Information)**
+    * 姓名（拼音） (Name (Pinyin))：____________________ [cite: 40]
+    * 性别 (Gender)： ☐ 男 (Male) ☐ 女 (Female) [cite: 40]
+    * 出生日期 (Date of Birth)：__________ [cite: 40]
+    * 国籍 (Nationality)：____________________ [cite: 40]
+    * 护照号码 (Passport Number)：____________________ [cite: 40]
+    * 学历（最高学历） (Education (Highest Qualification))：____________________ [cite: 40]
+    * 专业 (Major)：____________________ [cite: 40]
+    * 英语能力 (English Proficiency)： ☐ IELTS ☐ TOEFL ☐ 无 (None) ☐ 其他 (Other)：__________ [cite: 40]
+    * 工作经验（年） (Work Experience (Years))：__________ [cite: 40]
+    * 目前职位 (Current Position)：____________________ [cite: 40]
+    * 现居住国家/城市 (Current Country/City of Residence)：____________________ [cite: 40]
+* **二、拟申请准证信息 (Proposed Pass Information)**
+    * 申请类型 (Application Type)： ☐ EP ☐ DP ☐ LTVP ☐ EntrePass [cite: 40]
+    * 预计入境时间 (Expected Date of Entry)：____________________ [cite: 40]
+    * 是否曾申请过新加坡准证？ (Have you applied for a Singapore pass before?) ☐ 是 (Yes) ☐ 否 (No) [cite: 40]
+    * 如是，请说明准证类型与时间 (If yes, please specify pass type and date)：____________________ [cite: 40]
+* **三、雇主公司信息（如适用） (Employer Company Information (if applicable))**
+    * 公司名称 (Company Name)：____________________ [cite: 40]
+    * 公司注册编号（UEN） (Company Registration Number (UEN))：____________________ [cite: 40]
+    * 职位名称 (Job Title)：____________________ [cite: 40]
+    * 月薪（新币） (Monthly Salary (SGD))：____________________ [cite: 40]
+    * 办公地址 (Office Address)：____________________ [cite: 40]
+    * 联系人姓名 & 电话 (Contact Person Name & Phone)：____________________ [cite: 40]
+* **四、家庭成员信息（如适用） (Family Member Information (if applicable))**
+    * 配偶姓名 (Spouse's Name)：____________________ [cite: 40]
+    * 配偶出生日期 (Spouse's Date of Birth)：__________ [cite: 40]
+    * 配偶护照号码 (Spouse's Passport Number)：____________________ [cite: 40]
+    * 子女姓名（如有） (Children's Name(s) (if any))：____________________ [cite: 40]
+    * 子女出生年份 (Children's Birth Year)：__________ [cite: 40]
+    * 计划申请准证类型 (Planned Pass Application Type)：____________________ [cite: 40]
+* **五、其他补充信息 (Other Supplementary Information)** [cite: 40]
+
+## Apex 国际学校申请信息表 (Apex International School Application Information Form) [cite: 41]
+
+* **一、学生基本信息 (Student Basic Information)**
+    * 学生姓名（英文） (Student Name (English))：__________________________ [cite: 41]
+    * 性别 (Gender)： ☐ 男 (Male) ☐ 女 (Female) [cite: 41]
+    * 出生日期 (Date of Birth)：__________ [cite: 41]
+    * 国籍 (Nationality)：__________________________ [cite: 41]
+    * 当前就读学校 / 年级 (Current School / Grade)：__________________________ [cite: 41]
+    * 英文水平 (English Proficiency)： ☐ 英文学校背景 (English School Background) ☐ 有英文考试成绩 (Has English Test Scores) ☐ 初学者 (Beginner) [cite: 41]
+    * 是否持有新加坡签证 (Holds Singapore Visa)： ☐ 是 (Yes) ☐ 否 (No) （类型 (Type)：__________） [cite: 41]
+* **二、家庭信息 (Family Information)**
+    * 家长姓名 (Parent's Name)：__________________________ [cite: 41]
+    * 与学生关系 (Relationship to Student)：__________________________ [cite: 41]
+    * 联系电话（微信） (Contact Phone (WeChat))：__________________________ [cite: 41]
+    * 家庭常住地 (Family's Place of Residence)：__________________________ [cite: 41]
+* **三、择校意向 (School Preferences)**
+    * 计划入学时间 (Planned Enrollment Time)：__________ 年 (Year) ______ 月 (Month) [cite: 41]
+    * 期望入读年级 (Desired Grade Level)：__________________________ [cite: 41]
+    * 期望课程体系（可多选） (Desired Curriculum (Multiple Selections Possible))：
+        * ☐ IB ☐ 英式 A-Level (British A-Level) ☐ 美式 AP (American AP) ☐ IPC ☐ 不确定 (Uncertain) [cite: 41]
+    * 学校类型偏好 (School Type Preference)： ☐ 注重学术 (Academically Focused) ☐ 活动丰富 (Rich in Activities) ☐ 华人比例高 (High Proportion of Chinese Students) ☐ 国际氛围浓 (Strong International Atmosphere) [cite: 41]
+    * 预计预算范围（学费/年） (Estimated Budget Range (Tuition Fee/Year))： ☐ <$20,000 ☐ $20-35,000 ☐ $35,000以上 (Above $35,000) [cite: 41]
+* **四、未来教育目标 (Future Educational Goals)**
+    * 孩子是否计划未来出国留学？ (Does the child plan to study abroad in the future?) ☐ 是 (Yes) ☐ 否 (No) ☐ 暂不确定 (Undecided for now) [cite: 41]
+    * 计划国家 (Planned Country)： ☐ 英国 (UK) ☐ 美国 (USA) ☐ 澳大利亚 (Australia) ☐ 中国 (China) ☐ 其他 (Other)：__________ [cite: 41]
+    * 是否考虑后续升学规划支持服务？ (Consider follow-up academic planning support services?) ☐ 是 (Yes) ☐ 否 (No) [cite: 41]
+* **五、其他补充信息 (Other Supplementary Information)**
+    * （如孩子特殊兴趣、身体状况、学习偏好等） ((e.g., child's special interests, health conditions, learning preferences, etc.)) [cite: 41]
+
+## 企业注册服务模块 (Enterprise Registration Service Module) [cite: 42]
+
+* **首页（一级页面） (Homepage (First-level Page))** [cite: 42]
+    * 入口功能按钮（宫格导航） (Entrance Function Buttons (Grid Navigation)): [cite: 42]
+        * 企业注册服务 (Enterprise Registration Service) [cite: 42]
+        * 留学规划服务 (Study Abroad Planning Service) [cite: 42]
+        * 医疗健康服务 (Medical Health Service) [cite: 42]
+        * 我的账户 (My Account) [cite: 42]
+
+* **企业注册服务模块 (Enterprise Registration Service Module)**
+    * 注册国家选择入口（预留扩展） (Registration Country Selection Entrance (Reserved for Expansion)) [cite: 42]
+        * 默认：新加坡 ｜ 未来支持：香港、迪拜 (Default: Singapore | Future Support: Hong Kong, Dubai) [cite: 42]
+    * **模块：公司注册 (Module: Company Registration)**
+        * 页面标题：注册新加坡公司，迈出战略出海第一步 (Page Title: Register a Singapore Company, Take the First Step in Strategic Overseas Expansion) [cite: 42]
+        * 导语说明：合规可控、流程高效，支持远程全流程操作 (Introductory Note: Compliant and controllable, efficient process, supports remote full-process operation) [cite: 42]
+        * 模块内容 (Module Content):
+            * 注册流程（流程图） (Registration Process (Flowchart)) [cite: 42]
+                1.  名称查核与预留 (Name Check and Reservation) [cite: 42]
+                2.  提交董事 & 股东资料 (Submit Director & Shareholder Information) [cite: 42]
+                3.  完善注册文件与业务说明 (Complete Registration Documents and Business Description) [cite: 42]
+                4.  成功注册，获取公司文件 (Successful Registration, Obtain Company Documents) [cite: 42]
+            * 公司类型介绍（卡片） (Company Type Introduction (Cards)) [cite: 42]
+                * 私人有限公司（Pte. Ltd.） (Private Limited Company (Pte. Ltd.)) [cite: 43]
+                * 分公司（Branch） (Branch) [cite: 43]
+                * 代表处（RO） (Representative Office (RO)) [cite: 43]
+        * 操作按钮（CTA） (Call to Action Buttons (CTA)):
+            * 主按钮：立即提交注册申请（链接企业微信） (Main Button: Submit Registration Application Now (Link to Enterprise WeChat)) [cite: 43]
+            * 次按钮：了解注册详情（跳出注册流程图） (Secondary Button: Learn More About Registration Details (Jump to Registration Flowchart)) [cite: 43]
+            * 次按钮：查看注册类型区别（公司类型介绍） (Secondary Button: View Differences in Registration Types (Company Type Introduction)) [cite: 43]
+            * 浮动客服：扫码联系顾问 (Floating Customer Service: Scan Code to Contact Consultant) [cite: 43]
+    * **模块：公司秘书服务 (Module: Company Secretary Service)**
+        * 页面标题：法定秘书服务，保障企业合规运营 (Page Title: Statutory Secretary Service, Ensure Compliant Corporate Operations) [cite: 43]
+        * 导语说明：新加坡公司注册后必须在6个月内任命公司秘书。我们为您提供一站式秘书合规支持。 (Introductory Note: After a Singapore company is registered, a company secretary must be appointed within 6 months. We provide you with one-stop secretarial compliance support.) [cite: 43]
+        * 模块内容 (Module Content):
+            * 核心服务内容 (Core Service Content) [cite: 43]
+                * 年度申报（Annual Return）准备与提交 (Annual Return Preparation and Submission) [cite: 43]
+                * AGM 股东大会文档支持 (AGM Shareholder Meeting Document Support) [cite: 43]
+                * 公司结构/信息变更文书处理 (Company Structure/Information Change Document Processing) [cite: 43]
+                * 公司注册资料存档 & 电子归档 (Company Registration Material Archiving & Electronic Filing) [cite: 43]
+            * 秘书职责说明（展开卡片） (Secretary Responsibilities Explanation (Expandable Card)) [cite: 43]
+                * 法定联络人 (Statutory Liaison Person) [cite: 43]
+                * 合规提醒 & 截止日期跟进 (Compliance Reminders & Deadline Follow-up) [cite: 43]
+                * 注册局文件沟通人 (Liaison for Registry Documents) [cite: 43]
+        * 操作按钮（CTA） (Call to Action Buttons (CTA)):
+            * 主按钮：预约秘书服务 (Main Button: Book Secretary Service) [cite: 43]
+            * 次按钮：查看服务详情 (Secondary Button: View Service Details) [cite: 43]
+            * 浮动客服：扫码联系专属顾问 (Floating Customer Service: Scan Code to Contact Dedicated Consultant) [cite: 43]
+    * **模块：银行开户协助 (Module: Bank Account Opening Assistance)**
+        * 页面标题：快速开户，直连新加坡主流银行 (Page Title: Fast Account Opening, Direct Connection to Mainstream Singapore Banks) [cite: 43]
+        * 导语说明：协助准备开户资料并预约银行面签，支持远程开户流程。 (Introductory Note: Assist in preparing account opening materials and scheduling bank interviews, supports remote account opening process.) [cite: 43]
+        * 模块内容 (Module Content):
+            * 合作银行（Logo横排） (Partner Banks (Logo Horizontal Arrangement)) [cite: 43]
+                * DBS / OCBC / UOB / CIMB [cite: 43]
+            * 开户所需材料 (Required Materials for Account Opening) [cite: 43]
+                * 公司注册证书 & Bizfile (Company Registration Certificate & Bizfile) [cite: 43]
+                * 董事身份证明 (Director's Identity Proof) [cite: 43]
+                * 公司地址证明 (Company Address Proof) [cite: 43]
+                * 公司业务介绍资料（如官网/合同） (Company Business Introduction Materials (e.g., Official Website/Contracts)) [cite: 43]
+            * FAQ（可展开） (FAQ (Expandable)) [cite: 43]
+                * 开户是否需要本人来新加坡？ (Is it necessary to come to Singapore температураerson for account opening?) [cite: 43]
+                * 通常开户需多久？ (How long does account opening usually take?) [cite: 43]
+        * 操作按钮（CTA） (Call to Action Buttons (CTA)):
+            * 主按钮：预约开户服务 (Main Button: Book Account Opening Service) [cite: 43]
+            * 次按钮：下载开户资料模板 (Secondary Button: Download Account Opening Material Template) [cite: 43]
+            * 浮动客服：扫码添加顾问 (Floating Customer Service: Scan Code to Add Consultant) [cite: 43]
+    * **模块：准证办理 (Module: Pass Processing)**
+        * 页面标题：全类型准证办理，一站支持企业高管与家属 (Page Title: Full-Type Pass Processing, One-Stop Support for Corporate Executives and Families) [cite: 43]
+        * 导语说明：我们办理 EP、DP、LTVP、EntrePass 等新加坡准证类型，提供远程资料准备与系统提交服务。 (Introductory Note: We process Singapore pass types such as EP, DP, LTVP, EntrePass, providing remote material preparation and system submission services.) [cite: 43]
+        * 模块内容 (Module Content):
+            * 准证类型对比表 (Pass Type Comparison Table) [cite: 43]
+                * EP：高管，月薪≥S$5,000 + 学历/经验 (EP: Executives, Monthly Salary ≥S$5,000 + Education/Experience) [cite: 43]
+                * DP：EP 配偶 / 子女 (DP: EP Spouse / Children) [cite: 43]
+                * LTVP：父母 / 特殊家庭成员 (LTVP: Parents / Special Family Members) [cite: 43]
+                * EntrePass：创新/科技企业创始人 (EntrePass: Founders of Innovative/Tech Enterprises) [cite: 43]
+            * 办理流程 (Processing Flow) [cite: 43]
+                1.  提交资料 (Submit Materials) [cite: 43]
+                2.  在线申请 (Online Application) [cite: 43]
+                3.  MOM 审批（约2–4周） (MOM Approval (Approx. 2–4 Weeks)) [cite: 43]
+                4.  获批 & 入境打卡 (Approval & Entry Endorsement) [cite: 43]
+        * 操作按钮（CTA） (Call to Action Buttons (CTA)):
+            * 主按钮：申请准证服务 (Main Button: Apply for Pass Service) [cite: 43]
+            * 次按钮：查看准证类型比较 (Secondary Button: View Pass Type Comparison) [cite: 43]
+            * 浮动客服：扫码添加顾问 (Floating Customer Service: Scan Code to Add Consultant) [cite: 43]
+    * **模块：后续合规支持 (Module: Subsequent Compliance Support)**
+        * 页面标题：全周期合规财税支持，助力企业安心运营 (Page Title: Full-Cycle Compliance and Tax Support, Helping Enterprises Operate with Peace of Mind) [cite: 43]
+        * 导语说明：注册只是第一步，我们提供后续会计、税务、薪酬等一站式合规服务，避免企业经营风险。 (Introductory Note: Registration is just the first step; we provide subsequent one-stop compliance services such as accounting, taxation, payroll, etc., to avoid business operation risks.) [cite: 43]
+        * 模块内容 (Module Content):
+            * 合规服务模块 (Compliance Service Modules) [cite: 43]
+                * 会计 & 记账（月/季） (Accounting & Bookkeeping (Monthly/Quarterly)) [cite: 43]
+                * 年度公司税报（IRAS） (Annual Corporate Tax Return (IRAS)) [cite: 43]
+                * GST 消费税注册与申报 (GST Registration and Filing) [cite: 43]
+                * XBRL 财务报表转换 (XBRL Financial Statement Conversion) [cite: 43]
+                * CPF 薪酬 & 公积金申报 (CPF Payroll & Provident Fund Filing) [cite: 43]
+            * 服务套餐展示（Grow / Scale） (Service Package Display (Grow / Scale)) [cite: 43]
+                * 按发展阶段推荐服务组合 (Recommend service combinations based on development stage) [cite: 43]
+            * 时间节点可视化 (Timeline Visualization) [cite: 43]
+                * 年审 / 报税 / AGM 等关键时间提醒 (Key date reminders for annual review / tax filing / AGM, etc.) [cite: 43]
+        * 操作按钮（CTA） (Call to Action Buttons (CTA)):
+            * 主按钮：获取税务合规方案 (Main Button: Get Tax Compliance Solution) [cite: 43]
+            * 次按钮：预约一对一顾问 (Secondary Button: Book One-on-One Consultant) [cite: 43]
+            * 浮动客服：加企业微信获取合规时间表 (Floating Customer Service: Add Enterprise WeChat to Get Compliance Timeline) [cite: 43]
+
+
+
