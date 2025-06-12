@@ -1,4 +1,3 @@
-import { kv } from '@vercel/kv';
 import { NextResponse } from 'next/server';
 
 export const runtime = 'edge'; // Specify the runtime for Vercel
@@ -18,15 +17,51 @@ export async function POST(request: Request) {
       return new NextResponse('Bad Request: Invalid message format', { status: 400 });
     }
     
-    await kv.rpush(CHAT_SESSION_KEY, JSON.stringify(message));
+    // FIX: Use fetch with the Vercel KV REST API instead of the @vercel/kv package.
+    // 修复：使用fetch和Vercel KV的REST API，以替代@vercel/kv包。
+    const url = process.env.KV_REST_API_URL;
+    const token = process.env.KV_REST_API_TOKEN;
+
+    if (!url || !token) {
+        console.error('Vercel KV environment variables not set');
+        return new NextResponse('Internal Server Error: KV configuration missing', { status: 500 });
+    }
+
+    // 1. Save the new message using RPUSH command
+    const saveResponse = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(['RPUSH', CHAT_SESSION_KEY, JSON.stringify(message)])
+    });
+
+    if (!saveResponse.ok) {
+        const errorBody = await saveResponse.json();
+        console.error('Error saving message to Vercel KV:', errorBody);
+        return new NextResponse('Internal Server Error: Failed to save message', { status: 500 });
+    }
+
+    // 2. Trim the list to keep it from growing indefinitely using LTRIM command
+    const trimResponse = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(['LTRIM', CHAT_SESSION_KEY, -200, -1])
+    });
     
-    // Optional: Trim the list to keep it from growing indefinitely
-    // 可选：修剪列表以防止其无限增长
-    await kv.ltrim(CHAT_SESSION_KEY, -200, -1); // Keep the last 200 messages for review
+    if (!trimResponse.ok) {
+        // Log the trim error but don't fail the request, as saving is more critical
+        const errorBody = await trimResponse.json();
+        console.error('Error trimming chat history in Vercel KV:', errorBody);
+    }
 
     return new NextResponse('OK', { status: 200 });
   } catch (error) {
-    console.error('Error saving message to Vercel KV:', error);
+    console.error('Error processing POST request to /api/chat:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
