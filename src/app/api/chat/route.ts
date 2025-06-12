@@ -3,19 +3,12 @@ import { NextResponse } from 'next/server';
 
 export const runtime = 'edge'; // Specify the runtime for Vercel
 
-const CHAT_SESSION_KEY = 'chat_history:main_session';
+const CHAT_SESSION_KEY = 'chat_history_for_admin'; // Use a distinct key for admin-facing history
 
-// GET handler to fetch chat history
-export async function GET() {
-  try {
-    const history = await kv.lrange<string>(CHAT_SESSION_KEY, 0, -1);
-    const parsedHistory = history.map(item => JSON.parse(item));
-    return NextResponse.json(parsedHistory);
-  } catch (error) {
-    console.error('Error fetching chat history from Vercel KV:', error);
-    return new NextResponse('Internal Server Error', { status: 500 });
-  }
-}
+// This API route is now only for saving messages for admin review.
+// GET handler is removed as the client will not fetch history.
+// 此API路由现在仅用于保存消息供管理员审查。
+// GET处理程序已移除，因为客户端不再获取历史记录。
 
 // POST handler to save a new message
 export async function POST(request: Request) {
@@ -29,7 +22,7 @@ export async function POST(request: Request) {
     
     // Optional: Trim the list to keep it from growing indefinitely
     // 可选：修剪列表以防止其无限增长
-    await kv.ltrim(CHAT_SESSION_KEY, -100, -1); // Keep the last 100 messages
+    await kv.ltrim(CHAT_SESSION_KEY, -200, -1); // Keep the last 200 messages for review
 
     return new NextResponse('OK', { status: 200 });
   } catch (error) {
