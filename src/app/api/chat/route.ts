@@ -1,24 +1,25 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 export const runtime = 'edge'; // Specify the runtime for Vercel
 
-const CHAT_SESSION_KEY = 'chat_history_for_admin'; // Use a distinct key for admin-facing history
-
-// This API route is now only for saving messages for admin review.
-// GET handler is removed as the client will not fetch history.
-// 此API路由现在仅用于保存消息供管理员审查。
-// GET处理程序已移除，因为客户端不再获取历史记录。
-
 // POST handler to save a new message
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) { // Use NextRequest to access IP
   try {
     const message = await request.json();
-    if (!message || !message.role || !message.text) {
-      return new NextResponse('Bad Request: Invalid message format', { status: 400 });
+    
+    // Requirement 2: Only save messages from the user.
+    // 需求2：只保存来自用户的消息。
+    if (!message || message.role !== 'user' || !message.text) {
+      // If it's an AI response or invalid, return OK without saving.
+      // 如果是AI的回复或格式无效，直接返回成功，不进行保存。
+      return new NextResponse('OK (AI response - not logged)', { status: 200 });
     }
     
-    // FIX: Use fetch with the Vercel KV REST API instead of the @vercel/kv package.
-    // 修复：使用fetch和Vercel KV的REST API，以替代@vercel/kv包。
+    // Requirement 1: Differentiate logs by user's IP address.
+    // 需求1：根据用户的IP地址区分日志。
+    const ip = request.ip || 'unknown';
+    const userChatHistoryKey = `chat_history:${ip}`;
+
     const url = process.env.KV_REST_API_URL;
     const token = process.env.KV_REST_API_TOKEN;
 
@@ -27,14 +28,21 @@ export async function POST(request: Request) {
         return new NextResponse('Internal Server Error: KV configuration missing', { status: 500 });
     }
 
-    // 1. Save the new message using RPUSH command
+    // Prepare the data to be saved: user's question with a timestamp.
+    // 准备要保存的数据：用户的问题和一个时间戳。
+    const logEntry = {
+        question: message.text,
+        timestamp: new Date().toISOString(),
+    };
+
+    // 1. Save the new user message using RPUSH command
     const saveResponse = await fetch(url, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(['RPUSH', CHAT_SESSION_KEY, JSON.stringify(message)])
+        body: JSON.stringify(['RPUSH', userChatHistoryKey, JSON.stringify(logEntry)])
     });
 
     if (!saveResponse.ok) {
@@ -43,14 +51,14 @@ export async function POST(request: Request) {
         return new NextResponse('Internal Server Error: Failed to save message', { status: 500 });
     }
 
-    // 2. Trim the list to keep it from growing indefinitely using LTRIM command
+    // 2. Trim the list for this specific user to keep the last 50 questions
     const trimResponse = await fetch(url, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(['LTRIM', CHAT_SESSION_KEY, -200, -1])
+        body: JSON.stringify(['LTRIM', userChatHistoryKey, -50, -1])
     });
     
     if (!trimResponse.ok) {
@@ -59,7 +67,7 @@ export async function POST(request: Request) {
         console.error('Error trimming chat history in Vercel KV:', errorBody);
     }
 
-    return new NextResponse('OK', { status: 200 });
+    return new NextResponse('OK (User question logged)', { status: 200 });
   } catch (error) {
     console.error('Error processing POST request to /api/chat:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
