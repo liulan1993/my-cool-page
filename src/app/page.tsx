@@ -349,9 +349,58 @@ const PlaceholdersAndVanishInput = ({
   );
 };
 
+// NEW: A simple component to render Markdown content safely.
+// 新增: 一个用于安全渲染Markdown内容的简单组件。
+const SimpleMarkdownRenderer = ({ content }: { content: string }) => {
+    const lines = content.split('\n');
+    const elements: React.ReactNode[] = [];
+    let listItems: React.ReactNode[] = [];
+
+    const parseInline = (text: string): React.ReactNode[] => {
+        const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+        return parts.map((part, i) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={i}>{part.slice(2, -2)}</strong>;
+            }
+            if (part.startsWith('*') && part.endsWith('*')) {
+                return <em key={i}>{part.slice(1, -1)}</em>;
+            }
+            return part;
+        }).filter(part => part !== '');
+    };
+
+    const flushList = () => {
+        if (listItems.length > 0) {
+            elements.push(<ul key={`list-${elements.length}`} className="list-disc pl-5 my-2 space-y-1">{listItems}</ul>);
+            listItems = [];
+        }
+    };
+
+    lines.forEach((line, index) => {
+        if (line.trim().startsWith('- ')) {
+            listItems.push(<li key={index}>{parseInline(line.trim().substring(2))}</li>);
+        } else {
+            flushList();
+            if (line.startsWith('# ')) {
+                elements.push(<h1 key={index} className="text-base font-bold my-1">{parseInline(line.substring(2))}</h1>);
+            } else if (line.startsWith('## ')) {
+                elements.push(<h2 key={index} className="text-sm font-bold my-1">{parseInline(line.substring(3))}</h2>);
+            } else if (line.trim() === '---') {
+                elements.push(<hr key={index} className="my-2 border-zinc-600" />);
+            } else if (line.trim() !== '') {
+                elements.push(<p key={index} className="my-1">{parseInline(line)}</p>);
+            }
+        }
+    });
+
+    flushList(); 
+
+    return <div className="text-white space-y-1">{elements}</div>;
+};
+
 
 // --- 主悬浮AI客服窗口组件 ---
-const FloatingAIChatWidget = () => {
+const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{role: string; text: string}[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -416,18 +465,25 @@ const FloatingAIChatWidget = () => {
     setMessages(newMessagesForUI);
     setIsLoading(true);
 
-    const systemPrompt = `您是“Apex AI客服”，一个友好且乐于助人的人工智能。您的任务是严格根据以下提供的【内部资料】来回答用户的问题。请不要编造资料中不存在的信息。如果问题的答案在资料中找不到，请使用“人工客服的说明书.txt”里指定的标准回复。
+    // UPDATE: System prompt now requests Markdown formatting.
+    // 更新：系统提示词现在要求使用Markdown格式进行输出。
+    const systemPrompt = `您是“Apex AI客服”，一个友好且乐于助人的人工智能。您的任务是严格根据以下提供的【内部资料】和【当前页面内容】来回答用户的问题。请优先参考【当前页面内容】。请不要编造资料中不存在的信息。如果问题的答案在资料中找不到，请使用“人工客服的说明书.txt”里指定的标准回复。
+
+    重要: 请使用Markdown语法来格式化您的回答以提高可读性。例如，使用标题(#, ##)、列表(-)和粗体字(**text**)。
 
     【内部资料】:
     ---
     ${knowledgeBase}
     ---
+    
+    【当前页面内容】:
+    ---
+    ${pageContent}
+    ---
     `;
     
-    // 保持对话历史的精简
     const recentHistory = messages.slice(-4); 
 
-    // 转换为Gemini API的格式
     const chatHistory = [
       { role: "user", parts: [{ text: systemPrompt }] },
       ...recentHistory.map(msg => ({
@@ -437,15 +493,11 @@ const FloatingAIChatWidget = () => {
        { role: "user", parts: [{ text: userInput }] }
     ];
 
-    // FIX: Reverting to the official Gemini API payload structure.
-    // 修复：恢复使用Gemini官方API的请求体结构。
     const payload = {
       contents: chatHistory,
     };
     
     const apiKey = "AIzaSyCEPLmEGSUyPKO0hcaAgBDLLwxWTnq_qXQ"; 
-    // FIX: Reverting to the official Gemini API endpoint.
-    // 修复：恢复使用Gemini官方API端点。
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
     try {
@@ -465,8 +517,6 @@ const FloatingAIChatWidget = () => {
 
         const result = await response.json();
         let aiResponse = "抱歉，我遇到了一些问题，请稍后再试。";
-        // FIX: Reverting to the official Gemini API response parsing.
-        // 修复：恢复使用Gemini官方API的响应解析方式。
         if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
            aiResponse = result.candidates[0].content.parts[0].text;
         }
@@ -522,7 +572,9 @@ const FloatingAIChatWidget = () => {
                   {messages.map((msg, index) => (
                     <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`px-3 py-2 rounded-lg max-w-xs text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-200'}`}>
-                        {msg.text}
+                        {/* UPDATE: Conditionally render Markdown for AI responses. */}
+                        {/* 更新：为AI的回复条件性地渲染Markdown。 */}
+                        {msg.role === 'user' ? msg.text : <SimpleMarkdownRenderer content={msg.text} />}
                       </div>
                     </div>
                   ))}
@@ -571,7 +623,7 @@ export default function Home() {
     return (
         <>
             <BackgroundPaths title="新加坡留学政策" subtitle="快来新加坡留学" />
-            <FloatingAIChatWidget />
+            <FloatingAIChatWidget pageContent={articleContent} />
         </>
     );
 }
