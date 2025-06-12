@@ -20,12 +20,14 @@ export async function GET() {
       return new NextResponse('Internal Server Error: KV configuration missing', { status: 500 });
     }
 
-    // 1. Scan for all keys matching the chat history pattern
-    // 1. 扫描所有匹配聊天记录模式的键
+    // 1. Scan for all keys matching the new chat history pattern
+    // 1. 扫描所有匹配新聊天记录模式的键
     let cursor = 0;
     const allKeys: string[] = [];
     do {
-      const scanResponse = await fetch(`${url}/scan/${cursor}/match/chat_history:*`, {
+      // UPDATE: Scan for keys with the new "chats/" prefix.
+      // 更新：扫描带有新的 "chats/" 前缀的键。
+      const scanResponse = await fetch(`${url}/scan/${cursor}/match/chats:*`, {
           headers: {
               'Authorization': `Bearer ${token}`,
           },
@@ -48,7 +50,7 @@ export async function GET() {
 
 
     if (allKeys.length === 0) {
-        return NextResponse.json({ message: "No chat histories found." });
+        return NextResponse.json({ message: "No chat histories found with 'chats:' prefix." });
     }
 
     // 2. Fetch all chat logs in batches to avoid overwhelming the API
@@ -79,11 +81,10 @@ export async function GET() {
 
         // 3. Format the data for export
         // 3. 格式化数据以供导出
-        // FIX: Added robust checking for the histories.result to prevent runtime errors.
-        // 修复：增加了对histories.result的健壮性检查，以防止运行时错误。
         if (histories && histories.result && Array.isArray(histories.result)) {
             batchKeys.forEach((key, index) => {
-                const userIdentifier = key.split(':')[1] || `unknown_user_${key}`;
+                // Extract the user identifier (session ID) from the key
+                const userIdentifier = key.split('/')[1] || `unknown_user_${key}`;
                 const userHistory: string[] | null = histories.result[index];
                 
                 if(Array.isArray(userHistory)) {

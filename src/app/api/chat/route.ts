@@ -26,9 +26,9 @@ export async function POST(request: NextRequest) {
       return new NextResponse('OK (Not logged)', { status: 200 });
     }
     
-    // Requirement 1: Differentiate logs by a unique session ID.
-    // 需求1：根据唯一的会话ID区分日志。
-    const userChatHistoryKey = `chat_history:${sessionId}`;
+    // UPDATE: Use a folder-like naming convention for keys.
+    // 更新：为键使用类似文件夹的命名约定。
+    const userChatHistoryKey = `chats/${sessionId}`;
 
     const url = process.env.KV_REST_API_URL;
     const token = process.env.KV_REST_API_TOKEN;
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     }
 
     return new NextResponse('OK (User question logged)', { status: 200 });
-  } catch (error: unknown) { // Use 'unknown' for type-safe error handling
+  } catch (error: unknown) {
     let errorMessage = 'An unknown error occurred';
     if (error instanceof Error) {
         errorMessage = error.message;
