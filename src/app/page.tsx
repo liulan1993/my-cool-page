@@ -479,12 +479,30 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const handleSubmit = async (userInput: string) => {
     if (!userInput.trim() || !knowledgeBase || !sessionId) return;
     
-    // Use 'assistant' for AI role to align with DeepSeek/OpenAI standards.
-    // 使用 'assistant' 作为 AI 角色，以符合 DeepSeek/OpenAI 的标准。
     const userMessage = { role: 'user' as const, content: userInput };
     const newMessagesForUI = [...messages, userMessage];
     setMessages(newMessagesForUI);
     setIsLoading(true);
+
+    // **FIX**: Re-added the call to the backend API to save the user's message.
+    // **修复**: 重新添加对后端API的调用，以保存用户的消息。
+    try {
+        await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            // The backend API expects a 'text' field, so we map 'content' to 'text'.
+            // 后端API需要一个'text'字段，所以我们将'content'映射到'text'。
+            body: JSON.stringify({
+                message: { role: 'user', text: userInput },
+                sessionId
+            })
+        });
+    } catch (error) {
+        // Log the error but don't block the user from getting an AI response.
+        // 记录错误，但不要阻止用户获取AI回复。
+        console.error("Failed to save user message to backend:", error);
+    }
+
 
     const systemPrompt = `您是“Apex AI客服”，一个友好且乐于助人的人工智能。您的任务是严格根据以下提供的【内部资料】和【当前页面内容】来回答用户的问题。请优先参考【当前页面内容】。请不要编造资料中不存在的信息。如果问题的答案在资料中找不到，请使用“人工客服的说明书.txt”里指定的标准回复。
 
@@ -501,16 +519,12 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
     ---
     `;
     
-    // Construct the message history for the DeepSeek API.
-    // 为 DeepSeek API 构建消息历史。
-    const recentHistory = newMessagesForUI.slice(-6); // Get last 6 messages for context
+    const recentHistory = newMessagesForUI.slice(-6); 
     const apiMessages = [
         { role: 'system' as const, content: systemPrompt },
         ...recentHistory
     ];
 
-    // MODIFICATION: Switched to DeepSeek API
-    // 修改：切换到 DeepSeek API
     const apiKey = process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY;
     const apiUrl = 'https://api.deepseek.com/v1/chat/completions';
 
@@ -527,10 +541,10 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}` // Use Bearer token for auth
+                'Authorization': `Bearer ${apiKey}` 
             },
             body: JSON.stringify({
-                model: 'deepseek-chat', // Specify the model as per documentation
+                model: 'deepseek-chat', 
                 messages: apiMessages,
                 stream: false
             })
@@ -544,8 +558,7 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
 
         const result = await response.json();
         let aiResponseText = "抱歉，我遇到了一些问题，请稍后再试。";
-        // MODIFICATION: Parse response according to DeepSeek/OpenAI format
-        // 修改：根据 DeepSeek/OpenAI 格式解析响应
+        
         if (result.choices && result.choices[0]?.message?.content) {
            aiResponseText = result.choices[0].message.content;
         }
@@ -562,9 +575,8 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
     }
   };
 
-  // Helper function to render messages correctly based on new structure
   const renderMessageContent = (msg: {role: 'user' | 'assistant' | 'system'; content: string}) => {
-    if (msg.role === 'system') return null; // Don't render system messages
+    if (msg.role === 'system') return null; 
     return msg.role === 'user' ? msg.content : <SimpleMarkdownRenderer content={msg.content} />;
   }
 
@@ -609,7 +621,7 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
               >
                 <div className="flex-grow p-4 space-y-4 overflow-y-auto">
                   {messages.map((msg, index) => (
-                    msg.role !== 'system' && ( // Don't render system messages
+                    msg.role !== 'system' && ( 
                       <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`px-3 py-2 rounded-lg max-w-xs text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-200'}`}>
                           {renderMessageContent(msg)}
