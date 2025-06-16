@@ -406,7 +406,9 @@ const SimpleMarkdownRenderer = ({ content }: { content: string }) => {
 // --- 主悬浮AI客服窗口组件 ---
 const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{role: string; text: string}[]>([]);
+  // MODIFIED: Updated message type for role consistency
+  // 修改: 更新消息类型以确保角色一致性
+  const [messages, setMessages] = useState<{role: 'user' | 'assistant' | 'system'; content: string}[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [knowledgeBase, setKnowledgeBase] = useState("");
@@ -477,16 +479,12 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
   const handleSubmit = async (userInput: string) => {
     if (!userInput.trim() || !knowledgeBase || !sessionId) return;
     
-    const userMessage = { role: 'user', text: userInput };
+    // Use 'assistant' for AI role to align with DeepSeek/OpenAI standards.
+    // 使用 'assistant' 作为 AI 角色，以符合 DeepSeek/OpenAI 的标准。
+    const userMessage = { role: 'user' as const, content: userInput };
     const newMessagesForUI = [...messages, userMessage];
     setMessages(newMessagesForUI);
     setIsLoading(true);
-
-    await fetch('/api/chat', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ message: userMessage, sessionId })
-    });
 
     const systemPrompt = `您是“Apex AI客服”，一个友好且乐于助人的人工智能。您的任务是严格根据以下提供的【内部资料】和【当前页面内容】来回答用户的问题。请优先参考【当前页面内容】。请不要编造资料中不存在的信息。如果问题的答案在资料中找不到，请使用“人工客服的说明书.txt”里指定的标准回复。
 
@@ -503,56 +501,72 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
     ---
     `;
     
-    const recentHistory = newMessagesForUI.slice(-5, -1); 
-
-    const chatHistory = [
-      { role: "user", parts: [{ text: systemPrompt }] },
-      ...recentHistory.map(msg => ({
-        role: msg.role === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.text }]
-      })),
-       { role: "user", parts: [{ text: userInput }] }
+    // Construct the message history for the DeepSeek API.
+    // 为 DeepSeek API 构建消息历史。
+    const recentHistory = newMessagesForUI.slice(-6); // Get last 6 messages for context
+    const apiMessages = [
+        { role: 'system' as const, content: systemPrompt },
+        ...recentHistory
     ];
 
-    const payload = {
-      contents: chatHistory,
-    };
-    
-    const apiKey = "AIzaSyCEPLmEGSUyPKO0hcaAgBDLLwxWTnq_qXQ"; 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+    // MODIFICATION: Switched to DeepSeek API
+    // 修改：切换到 DeepSeek API
+    const apiKey = process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY;
+    const apiUrl = 'https://api.deepseek.com/v1/chat/completions';
+
+    if (!apiKey) {
+      console.error("DeepSeek API key is not configured in environment variables.");
+      const errorMessage = { role: 'assistant' as const, content: "抱歉，AI服务未正确配置。请联系网站管理员。" };
+      setMessages([...newMessagesForUI, errorMessage]);
+      setIsLoading(false);
+      return;
+    }
 
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}` // Use Bearer token for auth
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                model: 'deepseek-chat', // Specify the model as per documentation
+                messages: apiMessages,
+                stream: false
+            })
         });
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("API返回错误:", errorData);
-            throw new Error(`API error: ${response.statusText}`);
+            console.error("DeepSeek API returned an error:", errorData);
+            throw new Error(`API error: ${response.statusText} - ${errorData.error?.message || ''}`);
         }
 
         const result = await response.json();
         let aiResponseText = "抱歉，我遇到了一些问题，请稍后再试。";
-        if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
-           aiResponseText = result.candidates[0].content.parts[0].text;
+        // MODIFICATION: Parse response according to DeepSeek/OpenAI format
+        // 修改：根据 DeepSeek/OpenAI 格式解析响应
+        if (result.choices && result.choices[0]?.message?.content) {
+           aiResponseText = result.choices[0].message.content;
         }
         
-        const aiMessage = { role: 'model', text: aiResponseText };
+        const aiMessage = { role: 'assistant' as const, content: aiResponseText };
         setMessages([...newMessagesForUI, aiMessage]);
         
     } catch (error) {
-        console.error("API调用失败:", error);
-        const errorMessage = { role: 'model', text: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" };
+        console.error("DeepSeek API call failed:", error);
+        const errorMessage = { role: 'assistant' as const, content: "抱歉，连接服务失败，请检查您的网络或联系技术支持。" };
         setMessages([...newMessagesForUI, errorMessage]);
     } finally {
         setIsLoading(false);
     }
   };
+
+  // Helper function to render messages correctly based on new structure
+  const renderMessageContent = (msg: {role: 'user' | 'assistant' | 'system'; content: string}) => {
+    if (msg.role === 'system') return null; // Don't render system messages
+    return msg.role === 'user' ? msg.content : <SimpleMarkdownRenderer content={msg.content} />;
+  }
 
   return (
       <div className="fixed top-4 right-4 z-[999]" ref={widgetRef}>
@@ -595,11 +609,13 @@ const FloatingAIChatWidget = ({ pageContent }: { pageContent: string }) => {
               >
                 <div className="flex-grow p-4 space-y-4 overflow-y-auto">
                   {messages.map((msg, index) => (
-                    <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`px-3 py-2 rounded-lg max-w-xs text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-200'}`}>
-                        {msg.role === 'user' ? msg.text : <SimpleMarkdownRenderer content={msg.text} />}
+                    msg.role !== 'system' && ( // Don't render system messages
+                      <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`px-3 py-2 rounded-lg max-w-xs text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-200'}`}>
+                          {renderMessageContent(msg)}
+                        </div>
                       </div>
-                    </div>
+                    )
                   ))}
                   {isLoading && (
                     <div className="flex justify-start">
